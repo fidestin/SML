@@ -1,8 +1,8 @@
 Ext.regController('SuppliersController', {
    //this will display the voucher
-    'editvoucher': function (options) {
+    'editsupplier': function (options) {
         ToolbarDemo.views.supplierEditorView.load(options.supplier);
-        ToolbarDemo.views.mainView.setActiveItem(
+        ToolbarDemo.views.suppliermainView.setActiveItem(
             ToolbarDemo.views.supplierEditorView,
             { type: 'slide', direction: 'left' }
         );

@@ -188,7 +188,7 @@ ToolbarDemo.views.NoteEditorView = Ext.extend(Ext.form.FormPanel, {
         });
     },
 
-	
+	//fields taken from ToolbarDemo.models.voucher stored in ToolbarDemo.stores.vouchersStore
     items: [
 	{
 		xtype:'component',

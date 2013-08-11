@@ -71,6 +71,8 @@ ToolbarDemo.stores.vouchersStore=new Ext.data.Store({
 
 //BMCA - Added suppliers - these are the activity suppliers - customer may or
 //may not have vouchers with these suppliers
+//Added a test
+
 ToolbarDemo.models.supplier=Ext.regModel('ToolbarDemo.models.supplier',{
 	idProperty:'ID',
 	fields :[
@@ -81,12 +83,13 @@ ToolbarDemo.models.supplier=Ext.regModel('ToolbarDemo.models.supplier',{
 	]
 });
 
+
 ToolbarDemo.stores.suppliersStore=new Ext.data.Store({
 	sorters:[{
 		property: 'supplierName',
 		direction: 'ASC'
 	}],
-	model:'ToolbarDemo.models.category',
+	model:'ToolbarDemo.models.supplier',
 	data :[
 		{supplierName:'Bad Ass',latX:'53.35',latY:'6.7',categoryID:'1'},
 		{supplierName:'Joes Cafe',latX:'53.25',latY:'6.8',categoryID:'1'},
@@ -96,6 +99,7 @@ ToolbarDemo.stores.suppliersStore=new Ext.data.Store({
 		{supplierName:'Cliffs of Moher',latX:'53.55',latY:'6.93',categoryID:'4'},
 	]
 });
+
 
 
 
@@ -123,6 +127,7 @@ ToolbarDemo.stores.categoryStore=new Ext.data.Store({
 	]
 });
 //BMCA - Added categories
+
 
 
 ToolbarDemo.models.points=Ext.regModel('ToolbarDemo.models.points',{

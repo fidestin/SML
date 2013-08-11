@@ -3,7 +3,7 @@ Ext.regController('VouchersController', {
 
    //this will display the voucher
     'editvoucher': function (options) {
-
+		//est using 	this.ownerCt.onEditNote(vrecord, index) from the NotesListView
         ToolbarDemo.views.noteEditorView.load(options.voucher);
         ToolbarDemo.views.mainView.setActiveItem(
             ToolbarDemo.views.noteEditorView,

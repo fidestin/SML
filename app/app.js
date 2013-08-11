@@ -9,14 +9,13 @@ ToolbarDemo = new Ext.Application({
 			ToolbarDemo.views.mainView = new ToolbarDemo.views.MainView();		
         }
 		
+		if (!ToolbarDemo.views.supplierMainView) {
+			ToolbarDemo.views.supplierMainView = new ToolbarDemo.views.SupplierMainView();		
+        }
+		
 		
 		this.views.viewport = new this.views.Viewport();
-		
-		//alert('localStorage.hasConnection '+localStorage.hasConnection);
-		
-    	
-    	
-    	//alert('Email is ' + localStorage.email + '. Acivated is ' + localStorage.activated);
+		//alert('Email is ' + localStorage.email + '. Acivated is ' + localStorage.activated);
     	if (localStorage.email==undefined){
     		//alert('email undefined');
     		this.views.settingscard = this.views.viewport.getComponent('sett');

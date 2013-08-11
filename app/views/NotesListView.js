@@ -74,7 +74,7 @@
         Ext.dispatch({
             controller: ToolbarDemo.controllers.vouchersController,
             action: 'editvoucher',
-            voucher: record      ///anything added at this line (or after) just gets dropped into [options] object
+            voucher: record      //anything added at this line (or after) just gets dropped into [options] object
             					//the controller has access to it then, as options.voucher, options.stuff etc etc
         });
     },
