@@ -20,6 +20,7 @@ ToolbarDemo.views.MainView = Ext.extend(Ext.Panel, {
 	id:'mainview',
 	listeners:{
 		activate:function(){
+				console.log('MainView.js - just ust activated MainView');
              if(!Fidestin.Utils.checkConnection()){                     //FIX_56:BLANK NO CONN
                     if (ToolbarDemo.stores.vouchersStore.getGroups()[0]!=undefined){
                     ToolbarDemo.stores.vouchersStore.remove(ToolbarDemo.stores.vouchersStore.getGroups()[0].children);
@@ -85,6 +86,7 @@ ToolbarDemo.views.MainView = Ext.extend(Ext.Panel, {
         ToolbarDemo.views.MainView.superclass.initComponent.call(this);
 
         this.on('render', function () {
+		console.log('mainview-initComponent-render');
         	//alert('render MainView - vouchersStore');   //this happens when the app is loading...
         	//we need to fire this when the app is loading so that the badgetext gets written, so the user can see voucher count 
         	//ToolbarDemo.stores.vouchersStore.load();		//we call this m

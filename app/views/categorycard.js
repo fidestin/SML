@@ -17,13 +17,13 @@ ToolbarDemo.views.Categorycard = Ext.extend(Ext.Panel, {
     styleHtmlContent: true,
     listeners:{
     	activate:function(){
-    		console.log('categprycard.js_Just activated pointscard');
+    		console.log('categoryCard.js_Just activated categoryCard');
           
     	}
     },
     layout:'fit',
     initComponent: function() {
-    	  console.log('categprycard.js-initComponent-');
+    	  console.log('categoryCard.js-initComponent-');
             this.topToolbar = new Ext.Toolbar({
 	            title: 'Points',
 	            items: [

@@ -82,7 +82,7 @@ ToolbarDemo.views.NoteEditorView = Ext.extend(Ext.form.FormPanel, {
 	id			: 'editview',
 	listeners	:{
 		activate : function(){
-				console.log('Just activated');
+				console.log('Just activated NoteEditorView');
 				$('#loadingmsg').hide();
 				$('#qrcodestring').html(ToolbarDemo.views.Createqrinput());
 				

@@ -16,7 +16,7 @@
 	],
     listeners:{
     	activate:function(){
-    		console.log('SuppliersListView.js_-> activate->Just activated vouchercard');
+    		console.log('SuppliersListView.js_-> activate->Just activated supplierList');
     	}
 		
 		
@@ -42,6 +42,7 @@
     },
 
     onEditSupplier: function (record, index) {
+		console.log('SupplierListView_onEditSupplier');
         Ext.dispatch({
             controller: ToolbarDemo.controllers.suppliersController,
             action: 'editsupplier',
