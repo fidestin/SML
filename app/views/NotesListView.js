@@ -18,19 +18,7 @@
 	],
     listeners:{
     	activate:function(){
-    		//alert('ListViewactive');
     		console.log('NotesListView.js_-> activate->Just activated vouchercard');
-    		//Refresh the list - the user may have just Redeemed a voucher...
-    		//var mainc=Ext.getCmp('listVouchers');
-			//mainc.setLoading(true,true);
-			// 	console.log('mainview.js_->activate->loading vouchers - removing all first');
-			// 	if (ToolbarDemo.stores.vouchersStore.getGroups()[0]!=undefined){
-			// 		ToolbarDemo.stores.vouchersStore.remove(ToolbarDemo.stores.vouchersStore.getGroups()[0].children)
-			// 		ToolbarDemo.views.LoadCustomerVouchers(localStorage.customercode);
-			// 	}
-			// 	else{
-			// 		mainc.setLoading(false);				//there are no vouchers for this customer
-			// 	}
     	}
 		
 		

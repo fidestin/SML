@@ -38,6 +38,51 @@ Ext.regStore('NotesStore', {
 //rather than using ...ToolbarDemo.stores.notesStore
 ToolbarDemo.stores.notesStore = Ext.StoreMgr.get('NotesStore');
 
+ToolbarDemo.models.supplier=Ext.regModel('ToolbarDemo.models.supplier',{
+	idProperty:'ID',
+	fields :[
+		{name:'supplierName'},
+		{name: 'latX'},
+		{name: 'latY'},
+		{name:'categoryID'}
+	]
+});
+
+
+ToolbarDemo.stores.suppliersStore=new Ext.data.Store({
+	sorters:[{
+		property: 'supplierName',
+		direction: 'ASC'
+	}],
+	model:'ToolbarDemo.models.supplier',
+	data :[
+		{supplierName:'Bad Asses',latX:'53.35',latY:'6.7',categoryID:'1'},
+		{supplierName:'Joes Cafe',latX:'53.25',latY:'6.8',categoryID:'1'},
+		{supplierName:'Marys Cafe',latX:'53.15',latY:'6.9',categoryID:'1'},
+		{supplierName:'The Quays',latX:'53.05',latY:'6.91',categoryID:'2'},
+		{supplierName:'The House Hotel',latX:'53.45',latY:'6.92',categoryID:'3'},
+		{supplierName:'Cliffs of Moher',latX:'53.55',latY:'6.93',categoryID:'4'},
+	]
+});
+
+ToolbarDemo.models.stuff=Ext.regModel('ToolbarDemo.models.stuff',{
+	 idProperty: 'stuffID',
+		fields:[
+		        {name:'stuffID',	type:'string'},
+		        {name:'description',type:'string'},
+				{name:'stuffName',	type:'string'}
+		       ]
+});
+ToolbarDemo.stores.stuffsStore=new Ext.data.Store({
+	sorters	:[{
+		property : 'stuffName',
+		direction : 'ASC'
+	}],
+	model	: 'ToolbarDemo.models.stuff',
+	data	: [	{stuffID:'10',description:'McNamaras €10 Voucher',stuffName:'Hello'},
+	    	   {stuffID:'11',description:'OBriens Christmas €5 Voucher',stuffName:'World'}
+	    	   ]
+});
 
 ToolbarDemo.models.voucher=Ext.regModel('ToolbarDemo.models.voucher',{
 	 idProperty: 'voucherID',
@@ -73,32 +118,7 @@ ToolbarDemo.stores.vouchersStore=new Ext.data.Store({
 //may not have vouchers with these suppliers
 //Added a test
 
-ToolbarDemo.models.supplier=Ext.regModel('ToolbarDemo.models.supplier',{
-	idProperty:'ID',
-	fields :[
-		{name:'supplierName'},
-		{name: 'latX'},
-		{name: 'latY'},
-		{name:'categoryID'}
-	]
-});
 
-
-ToolbarDemo.stores.suppliersStore=new Ext.data.Store({
-	sorters:[{
-		property: 'supplierName',
-		direction: 'ASC'
-	}],
-	model:'ToolbarDemo.models.supplier',
-	data :[
-		{supplierName:'Bad Ass',latX:'53.35',latY:'6.7',categoryID:'1'},
-		{supplierName:'Joes Cafe',latX:'53.25',latY:'6.8',categoryID:'1'},
-		{supplierName:'Marys Cafe',latX:'53.15',latY:'6.9',categoryID:'1'},
-		{supplierName:'The Quays',latX:'53.05',latY:'6.91',categoryID:'2'},
-		{supplierName:'The House Hotel',latX:'53.45',latY:'6.92',categoryID:'3'},
-		{supplierName:'Cliffs of Moher',latX:'53.55',latY:'6.93',categoryID:'4'},
-	]
-});
 
 
 

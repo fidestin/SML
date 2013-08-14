@@ -2,19 +2,22 @@ ToolbarDemo = new Ext.Application({
     name: "ToolbarDemo",
 
     launch: function() {
-    	
+    	console.log('app.js_launch');
     	//Must create this here - before creating the viewport - or viewport.initComponent will fail as mainView doesnt exist yet...
     	//Required for the card panels.
 		if (!ToolbarDemo.views.mainView) {
+			console.log('app.js_mainview');
 			ToolbarDemo.views.mainView = new ToolbarDemo.views.MainView();		
         }
 		
-		if (!ToolbarDemo.views.supplierMainView) {
-			ToolbarDemo.views.supplierMainView = new ToolbarDemo.views.SupplierMainView();		
+		if (!ToolbarDemo.views.stuffView) {
+			console.log('app.js_stuffview');
+			ToolbarDemo.views.stuffView = new ToolbarDemo.views.StuffView();		
         }
 		
 		
 		this.views.viewport = new this.views.Viewport();
+		console.log('Viewport added');
 		//alert('Email is ' + localStorage.email + '. Acivated is ' + localStorage.activated);
     	if (localStorage.email==undefined){
     		//alert('email undefined');

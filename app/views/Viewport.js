@@ -15,10 +15,8 @@ ToolbarDemo.views.Viewport = Ext.extend(Ext.TabPanel, {
 				{ xtype: 'categorycard',     id:'categorycard'},	//
                 { xtype: 'pointscard',		id : 'pointscard' },
                 ToolbarDemo.views.mainView,							//this is the vouchers panel
+				//ToolbarDemo.views.stuffView,
 				
-				//ToolbarDemo.views.suppliermainView,							//this is the suppliers panel
-				{ xtype: 'suppliermainview',		id : 'suppliermainview'},
-                
 				{ xtype: 'scancard',		id : 'scancard'},
                 //{ xtype: 'verifycard',		id : 'verifycard'},		//part of the Managers App
 				//{ xtype: 'storecard',		id : 'storecard'},			//part of the Managers App

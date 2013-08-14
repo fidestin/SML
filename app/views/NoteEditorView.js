@@ -90,6 +90,7 @@ ToolbarDemo.views.NoteEditorView = Ext.extend(Ext.form.FormPanel, {
 			}
 			,
 		deactivate:function(){
+			console.log('NoteEditorView.js_Deactivate_Listener');
 			console.log('Just deativating the panel');
 			console.log('Clear out old QR codes....');
 			$('#qrcode')[0].innerHTML="";
@@ -168,6 +169,7 @@ ToolbarDemo.views.NoteEditorView = Ext.extend(Ext.form.FormPanel, {
     },
 
     backButtonTap: function () {
+		console.log('Back button for Notes...calls notesController');
         Ext.dispatch({
             controller: ToolbarDemo.controllers.notesController,
             action: 'canceledit'

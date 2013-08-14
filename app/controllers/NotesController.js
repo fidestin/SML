@@ -85,6 +85,7 @@
     },
 
     'canceledit': function (options) {
+		console.log('NotesController.js_cancelEdit');
     	if (ToolbarDemo.views.mainView){
     		ToolbarDemo.views.mainView.setActiveItem(
     	            ToolbarDemo.views.notesListView,
