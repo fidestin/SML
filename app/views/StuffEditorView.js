@@ -91,7 +91,7 @@ ToolbarDemo.views.StuffEditorView = Ext.extend(Ext.form.FormPanel, {
     backButtonTap: function () {
         Ext.dispatch({
             controller: ToolbarDemo.controllers.stuffsController,
-            action: 'cancelstuff'
+            action: 'cancelstuffss'
         });
     },
 

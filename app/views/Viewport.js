@@ -12,10 +12,10 @@ ToolbarDemo.views.Viewport = Ext.extend(Ext.TabPanel, {
             },
             items: [
                 { xtype: 'homecard', 		id : 'home' },  		//only these panels appear on bottom toolbar
-				{ xtype: 'categorycard',     id:'categorycard'},	//
+				//{ xtype: 'categorycard',     id:'categorycard'},	//
                 { xtype: 'pointscard',		id : 'pointscard' },
                 ToolbarDemo.views.mainView,							//this is the vouchers panel
-				//ToolbarDemo.views.stuffView,
+				ToolbarDemo.views.stuffView,						//add this for the Panel to appear...
 				
 				{ xtype: 'scancard',		id : 'scancard'},
                 //{ xtype: 'verifycard',		id : 'verifycard'},		//part of the Managers App

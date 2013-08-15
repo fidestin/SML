@@ -18,16 +18,27 @@
 		}
 	],
     listeners:{
-    	activate:function(){console.log('StuffsListView.js_-> activate->Just activated stuffcard');}
+    	activate:function(){console.log('StuffsListView.js_-> activate->Just activated stuffs Panel');}
     },
     layout: 'fit',
     initComponent: function () {
 
+			
+		this.backButton = new Ext.Button({
+            text: 'Back',
+            ui: 'back',						//this is a css-style and shouldnt be changed, it renders a special type of back button.
+            handler: this.backButtonTap,
+            scope: this
+        });
+		
 		this.topToolbar = new Ext.Toolbar({
             title: 'Stuffs',
-            items: [ { xtype: 'spacer' } ]
+            items: [ 
+				this.backButton,
+					{ xtype: 'spacer' } ]
         });
 
+		
         this.dockedItems = [this.topToolbar];
 
        //if we move to the detail page this will fire, emptying the list!
@@ -53,6 +64,13 @@
         });
     },
 
+	 backButtonTap: function () {
+        Ext.dispatch({
+            controller: ToolbarDemo.controllers.stuffsController,
+            action: 'cancelstuffs'
+        });
+    },
+	
     refreshList: function () {
 		console.log('refresh list');
         this.stuffsList.refresh();
