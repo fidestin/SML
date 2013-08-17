@@ -51,18 +51,7 @@ ToolbarDemo.views.StuffEditorView = Ext.extend(Ext.form.FormPanel, {
         });
 
         
-        
-       this.useitButton= new Ext.Button({
-           text: 'Use It!',
-           ui: 'useit',
-           handler: function(){
-				console.log('useItButtonHandler - isnt even rendered currently');
-			},
-           scope: this
-       });
-
-       
-
+      
         this.topToolbar = new Ext.Toolbar({
             title: 'StuffDetail',		//this is what appears across the panel top
             items: [
@@ -91,7 +80,7 @@ ToolbarDemo.views.StuffEditorView = Ext.extend(Ext.form.FormPanel, {
     backButtonTap: function () {
         Ext.dispatch({
             controller: ToolbarDemo.controllers.stuffsController,
-            action: 'cancelstuffss'
+            action: 'cancelstuffs'
         });
     },
 
@@ -109,32 +98,54 @@ ToolbarDemo.views.StuffEditorView = Ext.extend(Ext.form.FormPanel, {
         });
     },
 
+	fullscreen:true,
+	layout:	{
+		type:'vbox',
+		align:'stretch'					//v imp : ensures it stretches across full screen width!
+	},
 	//fields taken from ToolbarDemo.models.stuff stored in ToolbarDemo.stores.stuffsStore
     items: [
-	{
-		xtype :'spacer',
-		height: '40'
-	},
-	{
-        xtype: 'textfield',
-        name: 'stuffName',
-		id:	'stuffName',
-        label: 'Name'
-    },
-    {
-    	xtype:'textareafield',
-    	name:'description',
-    	label:'Info',
-		id:'description'
-    	
-    },{
-        xtype: 'textfield',
-        name: 'stuffID',
-        id :  'stuffID',
-        label: 'Id',
-        //required: true  this puts a star beside it...
-    },
-	]
+			
+			{
+				xtype:'carousel',
+				defaults:{
+					layout:'hbox'
+				},
+				flex:2,
+				items:[
+					{cls:'painting bridge'},
+					{cls:'painting halp'},
+					{cls:'painting church'},
+					]
+			},
+			{items:[
+					{
+					xtype :'spacer',
+					height: '40'
+					},
+					{
+						xtype: 'textfield',
+						name: 'stuffName',
+						id:	'stuffName',
+						label: 'Name'
+					},
+					{
+						xtype:'textareafield',
+						name:'description',
+						label:'Info',
+						id:'description'
+						
+					},{
+						xtype: 'textfield',
+						name: 'stuffID',
+						id :  'stuffID',
+						label: 'Id',
+						//required: true  this puts a star beside it...
+					},
+				],
+				flex:3
+			}
+		]
 });
 
 
