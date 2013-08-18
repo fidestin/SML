@@ -14,6 +14,8 @@ ToolbarDemo.views.Viewport = Ext.extend(Ext.TabPanel, {
                 { xtype: 'homecard', 		id : 'home' },  		//only these panels appear on bottom toolbar
 				{ xtype: 'aboutcard',     id:'aboutcard'},	//
 				{ xtype: 'about2',     id:'about2'},	//
+				{ xtype: 'mapcard',     id:'mapcard'},	//
+				
 				//{ xtype: 'categorycard',     id:'categorycard'},	//
                 { xtype: 'photocard',		id : 'photocard' },
                 ToolbarDemo.views.mainView,							//this is the vouchers panel

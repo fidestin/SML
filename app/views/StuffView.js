@@ -40,8 +40,8 @@ ToolbarDemo.views.StuffView = Ext.extend(Ext.Panel, {
     	console.log('stuffview_initComponent_apply()_adding StuffsListView+StuffEditorview');
         
     	Ext.apply(ToolbarDemo.views, {
-        	stuffsListView: new ToolbarDemo.views.StuffsListView({ stuffsStore: ToolbarDemo.stores.stuffsStore }),
 			categoryView : new ToolbarDemo.views.Categorycard(),		//do I need to pass in a store here....?
+        	stuffsListView: new ToolbarDemo.views.StuffsListView({ stuffsStore: ToolbarDemo.stores.stuffsStore }),
             stuffEditorView: new ToolbarDemo.views.StuffEditorView()
         });
 		
