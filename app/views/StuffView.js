@@ -42,7 +42,9 @@ ToolbarDemo.views.StuffView = Ext.extend(Ext.Panel, {
     	Ext.apply(ToolbarDemo.views, {
 			categoryView : new ToolbarDemo.views.Categorycard(),		//do I need to pass in a store here....?
         	stuffsListView: new ToolbarDemo.views.StuffsListView({ stuffsStore: ToolbarDemo.stores.stuffsStore }),
+			//aboutcardView: new ToolbarDemo.views.Aboutcard()
             stuffEditorView: new ToolbarDemo.views.StuffEditorView()
+			
         });
 		
 		
@@ -50,6 +52,7 @@ ToolbarDemo.views.StuffView = Ext.extend(Ext.Panel, {
 		this.items = [
 			ToolbarDemo.views.categoryView,					//picks up the first item in this array of views....and displays that 
             ToolbarDemo.views.stuffsListView,				//inside the stuffViewContainer ...
+			//ToolbarDemo.views.aboutcardView
             ToolbarDemo.views.stuffEditorView
         ]
 

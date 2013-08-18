@@ -1,16 +1,7 @@
 //These are the CRUDS for the Stuff controller....
 Ext.regController('StuffsController', {
 
-	'cancelstuff': function(options){							//cancels the detail, returns to list...
-			console.log('Do cancel stuff');
-			console.log('StuffsController.js_cancelstuff');
-    	if (ToolbarDemo.views.stuffView){
-    		ToolbarDemo.views.stuffView.setActiveItem(
-    	            ToolbarDemo.views.stuffsListView,			//stuffView is a panel, has an ActiveItem
-    	            { type: 'slide', direction: 'right' }
-    	        );
-    	}
-	},
+	
 	
     'editstuffs': function (options) {						//loads the stuffslist - should filter this
 		console.log('StuffsController.js_editstuffs');
@@ -37,18 +28,30 @@ Ext.regController('StuffsController', {
 	
 	
 	
-   //this will display the Stuff
+   //this will display the Stuff	- replace with the AboutCard to test
     'editstuff': function (options) {
-		//est using 	this.ownerCt.onEditStuff(vrecord, index) from the StuffsListView
-        ToolbarDemo.views.stuffEditorView.load(options.stuff);			
+		console.log('StuffsController.js_editstuff');
+		//ToolbarDemo.views.Aboutcard.load(options.stuff);			//cant call load on this class...Panel
+        //ToolbarDemo.views.stuffEditorView.load(options.stuff);		//Form_Panel has load method		
 						//load on Form Panel...seems to 'bind' the single stuff object 											
 						//to the details view. Loading a single object into a FieldSet
         ToolbarDemo.views.stuffView.setActiveItem(
-            ToolbarDemo.views.stuffEditorView,
+            ToolbarDemo.views.stuffEditorView,			//the object, not the class
             { type: 'slide', direction: 'left' }
         );
     },
 
+	'cancelstuff': function(options){							//cancels the detail, returns to list...
+			console.log('Do cancel stuff');
+			console.log('StuffsController.js_cancelstuff');
+    	if (ToolbarDemo.views.stuffView){
+    		ToolbarDemo.views.stuffView.setActiveItem(
+    	            ToolbarDemo.views.stuffsListView,			//stuffView is a panel, has an ActiveItem
+    	            { type: 'slide', direction: 'right' }
+    	        );
+    	}
+	},
+	
     //this will redeem the stuff
     'deletestuff': function (options) {
 

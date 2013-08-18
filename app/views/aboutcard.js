@@ -14,6 +14,13 @@ ToolbarDemo.views.Aboutcard = Ext.extend(Ext.Panel, {
     //styleHtmlContent: true,	//Remove this - 
     initComponent: function() {
     	
+			var backButton=new Ext.Button({
+				text:'Back',
+				ui:'back',
+				handler:this.backButtonTap,
+				scope:this
+			});
+			
 			var showPicsButton=new Ext.Button({
 				text:"Photos",
 				handler:function(){
@@ -42,6 +49,7 @@ ToolbarDemo.views.Aboutcard = Ext.extend(Ext.Panel, {
     		this.topToolbar = new Ext.Toolbar({
 	            title: 'About',
 	            items: [
+					backButton,
 	                { xtype: 'spacer'},
 					showPicsButton
 	             ]
@@ -57,7 +65,14 @@ ToolbarDemo.views.Aboutcard = Ext.extend(Ext.Panel, {
 				];
     		
 	        ToolbarDemo.views.Aboutcard.superclass.initComponent.apply(this, arguments);       
-    	}		//initcomponent
+    	},		//initcomponent
+		
+		backButtonTap: function () {
+        Ext.dispatch({
+            controller: ToolbarDemo.controllers.stuffsController,
+            action: 'cancelstuff'
+        });
+    }
 });
 
 Ext.reg('aboutcard', ToolbarDemo.views.Aboutcard);
