@@ -36,7 +36,7 @@ Ext.regController('StuffsController', {
 						//load on Form Panel...seems to 'bind' the single stuff object 											
 						//to the details view. Loading a single object into a FieldSet
         ToolbarDemo.views.stuffView.setActiveItem(
-            ToolbarDemo.views.stuffEditorView,			//the object, not the class
+            ToolbarDemo.views.siteView,			//the object, not the class
             { type: 'slide', direction: 'left' }
         );
     },
@@ -71,7 +71,26 @@ Ext.regController('StuffsController', {
         );
         console.log('Returned to main page...');
     },
+	
+	'openMap': function(options){							//cancels the detail, returns to list...
+		console.log('StuffsController.js_openMap');
+    	if (ToolbarDemo.views.stuffView){
+    		ToolbarDemo.views.stuffView.setActiveItem(
+    	            ToolbarDemo.views.mapView,			//stuffView is a panel, has an ActiveItem
+    	            { type: 'slide', direction: 'left' }
+    	        );
+    	}
+	},
 
+	'cancelMap': function(options){							//cancels the detail, returns to list...
+		console.log('StuffsController.js_cancelMap');
+    	if (ToolbarDemo.views.stuffView){
+    		ToolbarDemo.views.stuffView.setActiveItem(
+    	            ToolbarDemo.views.siteView,			//stuffView is a panel, has an ActiveItem
+    	            { type: 'slide', direction: 'right' }
+    	        );
+    	}
+	},
     
 });
 
