@@ -15,6 +15,11 @@ ToolbarDemo = new Ext.Application({
 			ToolbarDemo.views.stuffView = new ToolbarDemo.views.StuffView();		
         }
 		
+		if (!ToolbarDemo.views.Homecard) {
+			console.log('app.js_homecard');
+			ToolbarDemo.views.homecard = new ToolbarDemo.views.Homecard();		
+        }
+		
 		
 		this.views.viewport = new this.views.Viewport();
 		console.log('Viewport added');

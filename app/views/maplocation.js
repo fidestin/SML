@@ -1,4 +1,25 @@
+//Some map API calls based on adding an ID to the Panel that contains JUST the map...
+//mimap.setCenter(new google.maps.LatLng(-25.363882, 131.044922))
+//mimap.setCenter(new google.maps.LatLng(53, -9))
+//var mimap=Ext.getCmp('map1').items.items[0].map
+//mimap.setZoom(11)
+
+
+//Capture the TilesLoading event to update the Toolbar title
+//Once its loaded then reset the Toolbar...
+//Change the title of the DockedToolbar
+//var tb=Ext.getCmp('mapcard')
+//tb.dockedItems.items[0].setTitle('The Quays')
+//view-source:http://www.oxfordnewmedia.com/maps/loadingMsg.html
+
 var Mymap;
+
+
+bmcaFunction=function(){
+	console.log('This is the map listener');
+}
+
+google.maps.event.addDomListener(window, 'load', bmcaFunction);
 
 ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 	//requires:'Ext.Map',
@@ -22,7 +43,8 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 		});
 			
 		this.topToolbar = new Ext.Toolbar({
-	            title: 'Site Map',
+	            title: 'Site Map3',
+				id:'st1',
 	            items: [
 					backButton,
 	                { xtype: 'spacer'}
@@ -30,13 +52,14 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 	    });
 		
 		this.dockedItems = [this.topToolbar];
-		var HQposition = new google.maps.LatLng(37.44885, -122.158592);
+		var HQposition = new google.maps.LatLng(53.27322, -9.0648);
 		Mymap = new Ext.Panel({
-			fullscreen:true,
+			id:'map1',
+			fullscreen:true,	
 			items:[
 				{
 					xtype: 'map',
-					center:HQposition,
+					//center:HQposition,
 					//useCurrentLocation: true,
 					mapOptions: {
 						zoom: 15,
@@ -54,11 +77,29 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 								  map: map,
 								  title: 'Hello World!'
 							 });
+						},
+						render:function(){
+							console.log('_MAP_Render listener-gets fired when the component is init by StuffView');
+							console.log('this' + this);
+							google.maps.event.trigger(this,"resize");
+						},
+						activate:function(){
+							console.log('_MAP_Acitvated map function');
 						}
 					}
 				}
 			],
-			
+			listeners:{
+				activate:function(){
+					console.log('_MAP.js_-> activate->Just activated vouchercard');
+				}
+			},
+			onPainted: function(){
+				alert('painted');
+			},
+			 onShow: function(){
+				alert('show');
+			}
 		});
 		
 		

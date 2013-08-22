@@ -75,11 +75,54 @@ Ext.regController('StuffsController', {
 	'openMap': function(options){							//cancels the detail, returns to list...
 		console.log('StuffsController.js_openMap');
     	if (ToolbarDemo.views.stuffView){
+			//FIX required to resize the map
+			mimap=Ext.getCmp('map1').items.items[0].map;
+			
+			
+			console.log('Adding DOM Listener on center changed');
+			google.maps.event.addDomListener(mimap,'center_changed',function(){
+				console.log('Firing resize');
+				google.maps.event.trigger(mimap,"resize");	//ensures it displays correctly after pan
+			});
+			console.log('Opening map -> setActiveItem');
     		ToolbarDemo.views.stuffView.setActiveItem(
     	            ToolbarDemo.views.mapView,			//stuffView is a panel, has an ActiveItem
     	            { type: 'slide', direction: 'left' }
     	        );
-    	}
+			console.log('Adding googleMap_trigger - to resize');
+			var galwayLocation=new google.maps.LatLng(53.27112, -9.0569);
+			var galwayCrescents=new google.maps.LatLng(53.26878, -9.0660);
+			//add another marker...
+			var marker = new google.maps.Marker({
+				  position: galwayCrescents,
+				  map: mimap,
+				  title: 'Uluru (Ayers Rock)'
+			 });
+			 var infowindow = new google.maps.InfoWindow({
+				  content: 'Stuff about here',
+				  maxWidth: 200
+			  });
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(mimap,marker);
+			  });
+			 google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(mimap,marker);
+			  }); 
+			mimap.setCenter(galwayLocation);
+			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
+			
+			//get the toolbar component
+			var tb=Ext.getCmp('mapcard');
+			
+			google.maps.event.addListener(mimap, 'zoom_changed', function(){
+					console.log('Zoome ended');
+					tb.dockedItems.items[0].setTitle('Loading...');
+			});
+			google.maps.event.addListener(mimap, 'idle', function(){
+					console.log('All quiet now');
+					tb.dockedItems.items[0].setTitle('Loaded!');
+			});
+ 		}
 	},
 
 	'cancelMap': function(options){							//cancels the detail, returns to list...
