@@ -70,7 +70,10 @@ ToolbarDemo.models.stuff=Ext.regModel('ToolbarDemo.models.stuff',{
 		fields:[
 		        {name:'stuffID',	type:'string'},
 		        {name:'description',type:'string'},
-				{name:'stuffName',	type:'string'}
+				{name:'stuffName',	type:'string'},
+				{name:'address', type:'string'},
+				{name: 'latX'},
+				{name: 'latY'}
 		       ]
 });
 ToolbarDemo.stores.stuffsStore=new Ext.data.Store({
@@ -79,8 +82,8 @@ ToolbarDemo.stores.stuffsStore=new Ext.data.Store({
 		direction : 'ASC'
 	}],
 	model	: 'ToolbarDemo.models.stuff',
-	data	: [	{stuffID:'10',description:'McNamaras €10 Voucher',stuffName:'Hello'},
-	    	   {stuffID:'11',description:'OBriens Christmas €5 Voucher',stuffName:'World'}
+	data	: [	{stuffID:'10',description:'McArdles',stuffName:'Hello',address:'53 Cartur Mor, Clybaun Road, Galway',latX:'53.27941',latY:'-9.10314'},
+	    	   {stuffID:'11',description:'Spanish Arch Bar',stuffName:'World',address:'13 Quay Street, Galway',latX:'53.27105',latY:'-9.05423'}
 	    	   ]
 });
 

@@ -61,8 +61,9 @@
         Ext.dispatch({
             controller: ToolbarDemo.controllers.stuffsController,
             action: 'editstuff',
-            stuff: record      //anything added at this line (or after) just gets dropped into [options] object
+            stuff: record,      //anything added at this line (or after) just gets dropped into [options] object
             					//the controller has access to it then, as options.stuff, options.stuff etc etc
+			bmca:'989'			//Just adding this to test the controller...
         });
     },
 

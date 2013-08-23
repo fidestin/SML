@@ -35,6 +35,11 @@ Ext.regController('StuffsController', {
         //ToolbarDemo.views.stuffEditorView.load(options.stuff);		//Form_Panel has load method		
 						//load on Form Panel...seems to 'bind' the single stuff object 											
 						//to the details view. Loading a single object into a FieldSet
+		ToolbarDemo.views.siteView.thisSupplierRecord=options.stuff.data;		//push record detail to view...smaller portion of data
+		//Change the Toolbar title based on supplier (could this also be done in the Panel Listener event?)
+		var tb=Ext.getCmp('sitecard');
+		tb.dockedItems.items[0].setTitle(options.stuff.data.description);
+		
         ToolbarDemo.views.stuffView.setActiveItem(
             ToolbarDemo.views.siteView,			//the object, not the class
             { type: 'slide', direction: 'left' }
@@ -77,8 +82,9 @@ Ext.regController('StuffsController', {
     	if (ToolbarDemo.views.stuffView){
 			//FIX required to resize the map
 			mimap=Ext.getCmp('map1').items.items[0].map;
+			//var supplier=options.suppData;//this is the single supplier data passed in.
 			
-			
+			var supplier=ToolbarDemo.views.siteView.thisSupplierRecord;
 			console.log('Adding DOM Listener on center changed');
 			google.maps.event.addDomListener(mimap,'center_changed',function(){
 				console.log('Firing resize');

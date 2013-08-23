@@ -3,10 +3,17 @@
 ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 	id: 'sitecard',
 	fullscreen:true,
+	thisSupplierRecord: Ext.emptyFn,
 	//layout:'fit',
 	layout :{
 		type:'vbox',
 		align:'stretch'
+	},
+	listeners:{
+		activate:function(){
+			console.log('Site detail Activated function'+this.thisSupplierRecord.description);//might be wrong listener
+		},
+		
 	},
 	initComponent: function() {
     	
@@ -32,7 +39,9 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 					console.log('Open map');
 					Ext.dispatch({
 						controller: ToolbarDemo.controllers.stuffsController,
-						action: 'openMap'
+						action: 'openMap',
+						geoLoc:'53.9,-9.04',		//could this be an array (swap from listView)...?
+						suppData:this.thisSupplierRecord
 					});
 				}
 			});
