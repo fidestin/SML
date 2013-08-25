@@ -84,7 +84,11 @@ Ext.regController('StuffsController', {
 			mimap=Ext.getCmp('map1').items.items[0].map;
 			//var supplier=options.suppData;//this is the single supplier data passed in.
 			
-			var supplier=ToolbarDemo.views.siteView.thisSupplierRecord;
+			var supplier=ToolbarDemo.views.siteView.thisSupplierRecord;		//one way of getting the supplier
+			var supplier2=options.suppData;		//another way of getting the supplier
+			
+			var supplierLocation=new google.maps.LatLng(supplier2.latX,supplier2.latY);
+			console.log('Supplier location is :' + supplierLocation);
 			console.log('Adding DOM Listener on center changed');
 			google.maps.event.addDomListener(mimap,'center_changed',function(){
 				console.log('Firing resize');
@@ -96,26 +100,41 @@ Ext.regController('StuffsController', {
     	            { type: 'slide', direction: 'left' }
     	        );
 			console.log('Adding googleMap_trigger - to resize');
-			var galwayLocation=new google.maps.LatLng(53.27112, -9.0569);
-			var galwayCrescents=new google.maps.LatLng(53.26878, -9.0660);
+			//var galwayLocation=new google.maps.LatLng(53.27112, -9.0569);
+			//var galwayCrescents=new google.maps.LatLng(53.26878, -9.0660);
 			//add another marker...
-			var marker = new google.maps.Marker({
+			/*var marker = new google.maps.Marker({
 				  position: galwayCrescents,
 				  map: mimap,
 				  title: 'Uluru (Ayers Rock)'
 			 });
-			 var infowindow = new google.maps.InfoWindow({
+			 */
+			 var supplierMarker=new google.maps.Marker({
+				  position: supplierLocation,
+				  map: mimap,
+				  title: supplier2.description
+			 });
+			 
+			 var supplierInfowindow = new google.maps.InfoWindow({
+				  content: supplier2.description,
+				  maxWidth: 300
+			  });
+			  
+			 /*var infowindow = new google.maps.InfoWindow({
 				  content: 'Stuff about here',
 				  maxWidth: 200
 			  });
-			google.maps.event.addListener(marker, 'click', function() {
+			
+			  google.maps.event.addListener(marker, 'click', function() {
 				infowindow.open(mimap,marker);
 			  });
-			 google.maps.event.addListener(marker, 'click', function() {
-				infowindow.open(mimap,marker);
+			 */
+			 google.maps.event.addListener(supplierMarker, 'click', function() {
+				supplierInfowindow.open(mimap,supplierMarker);
 			  }); 
-			mimap.setCenter(galwayLocation);
+			
 			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
+			mimap.setCenter(supplierLocation);
 			
 			//get the toolbar component
 			var tb=Ext.getCmp('mapcard');
@@ -128,6 +147,11 @@ Ext.regController('StuffsController', {
 					console.log('All quiet now');
 					tb.dockedItems.items[0].setTitle('Loaded!');
 			});
+			//Just go and open the marker straight away...when map is displayed...
+			supplierInfowindow.open(mimap,supplierMarker);
+			infowindow.open(mimap,marker);		//sure open the other one too...!
+			//The controller will...
+			//Will need to close these, and reset the map when closing the map
  		}
 	},
 

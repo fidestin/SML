@@ -20,6 +20,11 @@ ToolbarDemo = new Ext.Application({
 			ToolbarDemo.views.homecard = new ToolbarDemo.views.Homecard();		
         }
 		
+		//add call here to pre-load the db
+		startLoad();
+		
+		//add call there to load this into stores collection...
+		
 		
 		this.views.viewport = new this.views.Viewport();
 		console.log('Viewport added');

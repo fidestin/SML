@@ -25,6 +25,7 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 	//requires:'Ext.Map',
 	title:'Map',
 	iconCls:'map',
+	supplier:Ext.emptyFn,
     id: 'mapcard',
 	fullscreen:true,
 	layout:'fit',
@@ -52,7 +53,7 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 	    });
 		
 		this.dockedItems = [this.topToolbar];
-		var HQposition = new google.maps.LatLng(53.27322, -9.0648);
+		//var HQposition = new google.maps.LatLng(53.27322, -9.0648);
 		Mymap = new Ext.Panel({
 			id:'map1',
 			fullscreen:true,	
@@ -65,18 +66,9 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 						zoom: 15,
 						 mapTypeId: google.maps.MapTypeId.ROADMAP
 					},
-					Marker: {
-						visible: true,
-						position:HQposition
-					},
 					listeners:{
 						maprender:function(comp,map){
 							console.log('Map rendered');
-							var marker = new google.maps.Marker({
-								  position: HQposition,
-								  map: map,
-								  title: 'Hello World!'
-							 });
 						},
 						render:function(){
 							console.log('_MAP_Render listener-gets fired when the component is init by StuffView');
