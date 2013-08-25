@@ -73,7 +73,8 @@ ToolbarDemo.models.stuff=Ext.regModel('ToolbarDemo.models.stuff',{
 				{name:'stuffName',	type:'string'},
 				{name:'address', type:'string'},
 				{name: 'latX'},
-				{name: 'latY'}
+				{name: 'latY'},
+				{name: 'categoryID'}
 		       ]
 });
 ToolbarDemo.stores.stuffsStore=new Ext.data.Store({
@@ -82,8 +83,8 @@ ToolbarDemo.stores.stuffsStore=new Ext.data.Store({
 		direction : 'ASC'
 	}],
 	model	: 'ToolbarDemo.models.stuff',
-	data	: [	{stuffID:'10',description:'McArdles',stuffName:'Hello',address:'53 Cartur Mor, Clybaun Road, Galway',latX:'53.27941',latY:'-9.10314'},
-	    	   {stuffID:'11',description:'Spanish Arch Bar',stuffName:'World',address:'13 Quay Street, Galway',latX:'53.27105',latY:'-9.054245'}
+	data	: [	{stuffID:'10',description:'McArdles',stuffName:'Hello',address:'53 Cartur Mor, Clybaun Road, Galway',latX:'53.27941',latY:'-9.10314',categoryID:'214'},
+	    	   {stuffID:'11',description:'Spanish Arch Bar',stuffName:'World',address:'13 Quay Street, Galway',latX:'53.27105',latY:'-9.054245',categoryID:'214'}
 	    	   ]
 });
 
@@ -143,10 +144,10 @@ ToolbarDemo.stores.categoryStore=new Ext.data.Store({
 	}],
 	model:'ToolbarDemo.models.category',
 	data :[
-		{categoryID:'1',catdescription:'Restaurants'},
-		{categoryID:'2',catdescription:'Bars'},
-		{categoryID:'3',catdescription:'Hotels'},
-		{categoryID:'4',catdescription:'Tourist Attractions'}
+		{categoryID:'226',catdescription:'Restaurants'},
+		{categoryID:'225',catdescription:'Bars'},
+		{categoryID:'214',catdescription:'Hotels'},
+		{categoryID:'247',catdescription:'Tourist Attractions'}
 	]
 });
 //BMCA - Added categories

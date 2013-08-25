@@ -3,6 +3,8 @@ ToolbarDemo = new Ext.Application({
 
     launch: function() {
     	console.log('app.js_launch');
+		localStorage.clear();
+		getLocation();	//asynch call to get user position...
     	//Must create this here - before creating the viewport - or viewport.initComponent will fail as mainView doesnt exist yet...
     	//Required for the card panels.
 		if (!ToolbarDemo.views.mainView) {
@@ -20,11 +22,12 @@ ToolbarDemo = new Ext.Application({
 			ToolbarDemo.views.homecard = new ToolbarDemo.views.Homecard();		
         }
 		
-		//add call here to pre-load the db
+		//***** Filename defined in html5load.js DATA_SOURCE_FILE upload it to /loya/ root dir...
+		//add call here to pre-load the db into browser memory.
 		startLoad();
 		
-		//add call there to load this into stores collection...
-		
+		//add call there to load this into stores collection...we pass in a categoryID now..
+		//thirdload();
 		
 		this.views.viewport = new this.views.Viewport();
 		console.log('Viewport added');

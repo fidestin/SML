@@ -7,6 +7,8 @@ Ext.regController('StuffsController', {
 		console.log('StuffsController.js_editstuffs');
 		//ToolbarDemo.views.stuffsListView.load(options.category); no method load on this view (Panel)//Could apply a filter??
 		if (ToolbarDemo.views.stuffView){
+			//based on categoryID passed in via options.
+			thirdload(options.category.data.categoryID);		//pass thru the category ID.
 			ToolbarDemo.views.stuffView.setActiveItem(
 				ToolbarDemo.views.stuffsListView,
 				{ type: 'slide', direction: 'left' }
