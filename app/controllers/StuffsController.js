@@ -1,18 +1,27 @@
 //These are the CRUDS for the Stuff controller....
 Ext.regController('StuffsController', {
 
-	
+	'loadmappedstuffs':function(options){
+		ToolbarDemo.views.stuffView.setActiveItem(
+					ToolbarDemo.views.stuffsListView,
+					{ type: 'slide', direction: 'left' }
+				);
+	},
 	
     'editstuffs': function (options) {						//loads the stuffslist - should filter this
 		console.log('StuffsController.js_editstuffs');
 		//ToolbarDemo.views.stuffsListView.load(options.category); no method load on this view (Panel)//Could apply a filter??
 		if (ToolbarDemo.views.stuffView){
 			//based on categoryID passed in via options.
-			thirdload(options.category.data.categoryID);		//pass thru the category ID.
+			thirdload(options.category.data.categoryID);		//pass thru the category ID. // this populates the data store - but without the distance calculated...
+			console.log('StuffsController_editStuffs_data store loaded with ' + ToolbarDemo.stores.stuffsStore.data.items.length);
+			mapListDisplayed=false;
+			topFunc(); 		//this enables a counter, when complete we refresh the list...
 			ToolbarDemo.views.stuffView.setActiveItem(
-				ToolbarDemo.views.stuffsListView,
-				{ type: 'slide', direction: 'left' }
+					ToolbarDemo.views.stuffsListView,
+					{ type: 'slide', direction: 'left' }
 			);
+			
 		}
 	},
 	

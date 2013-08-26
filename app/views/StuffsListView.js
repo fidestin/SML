@@ -7,7 +7,7 @@
 			xtype		: 'list',
 			store 		: ToolbarDemo.stores.stuffsStore,
 			itemTpl		: '<div class="list-item-title"><table border="0"><tr><td width="15%"><img src="gala.png" width="60" height="60"/></td>' + '<td width="85%"><table border="0"><tr><td width="90%" class="PLH">{description}</td><td style="width:90%;font-size:20pt;color:#0080FF"><strong>{stufffID}</strong></td></tr>' +
-				 '<tr><td colspan="2" style="vertical-align:bottom;height:10px;font-size:12px">{address}</td></tr></table></TD></TR></table></div>',
+				 '<tr><td colspan="2" style="vertical-align:bottom;height:10px;font-size:12px">{address}</td></tr></table></TD></TR><tr><td colspan="2" style="font-size:12px;">{journeyDuration}-{journeyDistance}</td></tr></table></div>',
 			//	 '<div>{stuffID}-{description}-{stuffName}</div>',
 			listeners	: {
 				itemtap:function(record, index){	
