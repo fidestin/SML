@@ -34,6 +34,7 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 		var backButton=new Ext.Button({
 				text:'Back',
 				ui:'back',
+				id:'mapBackButton',
 				scope:this,
 				handler:function(){
 						Ext.dispatch({
@@ -43,12 +44,26 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 					}
 		});
 			
+		var listButton=new Ext.Button({
+				text:'List',
+				//ui:'back',
+				id:'mapListButton',
+				scope:this,
+				handler:function(){
+						Ext.dispatch({
+							controller: ToolbarDemo.controllers.stuffsController,
+							action: 'cancelstuff'
+						});
+					}
+		});
+		
 		this.topToolbar = new Ext.Toolbar({
 	            title: 'Site Map3',
 				id:'st1',
 	            items: [
 					backButton,
-	                { xtype: 'spacer'}
+	                { xtype: 'spacer'},
+					listButton
 	             ]
 	    });
 		

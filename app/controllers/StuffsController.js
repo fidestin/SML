@@ -21,6 +21,11 @@ Ext.regController('StuffsController', {
 		if (ToolbarDemo.views.stuffView){
 			mapValuesReturned=0;
 			mapListDisplayed=false;
+			
+			var categoryTitle=options.category.data.catdescription;
+			var tb=Ext.getCmp('listStuffs');		//grab the view
+			tb.dockedItems.items[0].setTitle(categoryTitle);
+			
 			//based on categoryID passed in via options.
 			thirdload(options.category.data.categoryID,function(){
 					topFunc();		//Store now loaded, callback -> gets the map distances and saves it to the store
@@ -100,39 +105,75 @@ Ext.regController('StuffsController', {
         console.log('Returned to main page...');
     },
 	
+	'openMapList': function(options){
+		console.log('StuffsController.js_openMapList');
+		mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
+		
+		var suppliers=ToolbarDemo.stores.stuffsStore.data.items;
+		var centralDublin=new google.maps.LatLng(53.3497,-6.257);
+		
+		for (var i=0;i<suppliers.length;i++){
+			var marker=new google.maps.Marker({
+				map:mimap,
+				position: new google.maps.LatLng(suppliers[i].data.latX, suppliers[i].data.latY),
+				title: suppliers[i].data.description
+			});
+		}
+		
+		//Toggle the buttons...
+		var mapBackButton=Ext.getCmp('mapBackButton');
+		mapBackButton.setVisible(false);
+		var mapListButton=Ext.getCmp('mapListButton');
+		mapListButton.setVisible(true);
+		
+		
+		google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
+		mimap.setCenter(centralDublin);
+		mimap.setZoom(13);
+		
+		//Need to add a <list> button to the View here, with a Dispatch back to the list view...
+		//So it doenst get confused with the routing...
+		
+		//Can we just add this once at the start of the app - rather than in several places?
+		google.maps.event.addDomListener(mimap,'center_changed',function(){
+				console.log('Firing resize');
+				google.maps.event.trigger(mimap,"resize");	//ensures it displays correctly after pan
+		});
+			
+		ToolbarDemo.views.stuffView.setActiveItem(
+    	            ToolbarDemo.views.mapView,			//stuffView is a panel, has an ActiveItem
+    	            { type: 'slide', direction: 'left' }
+    	);
+	},
+	
 	'openMap': function(options){							//cancels the detail, returns to list...
 		console.log('StuffsController.js_openMap');
     	if (ToolbarDemo.views.stuffView){
-			//FIX required to resize the map
-			mimap=Ext.getCmp('map1').items.items[0].map;
-			//var supplier=options.suppData;//this is the single supplier data passed in.
+			
+			var mapBackButton=Ext.getCmp('mapBackButton');
+			mapBackButton.setVisible(true);
+			var mapListButton=Ext.getCmp('mapListButton');
+			mapListButton.setVisible(false);
+		
+			mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 			
 			var supplier=ToolbarDemo.views.siteView.thisSupplierRecord;		//one way of getting the supplier
 			var supplier2=options.suppData;		//another way of getting the supplier
-			
 			var supplierLocation=new google.maps.LatLng(supplier2.latX,supplier2.latY);
+			
 			console.log('Supplier location is :' + supplierLocation);
-			console.log('Adding DOM Listener on center changed');
 			google.maps.event.addDomListener(mimap,'center_changed',function(){
 				console.log('Firing resize');
 				google.maps.event.trigger(mimap,"resize");	//ensures it displays correctly after pan
 			});
+			
 			console.log('Opening map -> setActiveItem');
     		ToolbarDemo.views.stuffView.setActiveItem(
     	            ToolbarDemo.views.mapView,			//stuffView is a panel, has an ActiveItem
     	            { type: 'slide', direction: 'left' }
     	        );
-			console.log('Adding googleMap_trigger - to resize');
-			//var galwayLocation=new google.maps.LatLng(53.27112, -9.0569);
-			//var galwayCrescents=new google.maps.LatLng(53.26878, -9.0660);
-			//add another marker...
-			/*var marker = new google.maps.Marker({
-				  position: galwayCrescents,
-				  map: mimap,
-				  title: 'Uluru (Ayers Rock)'
-			 });
-			 */
-			 var supplierMarker=new google.maps.Marker({
+			
+			var supplierMarker=new google.maps.Marker({
 				  position: supplierLocation,
 				  map: mimap,
 				  title: supplier2.description
@@ -143,15 +184,7 @@ Ext.regController('StuffsController', {
 				  maxWidth: 300
 			  });
 			  
-			 /*var infowindow = new google.maps.InfoWindow({
-				  content: 'Stuff about here',
-				  maxWidth: 200
-			  });
 			
-			  google.maps.event.addListener(marker, 'click', function() {
-				infowindow.open(mimap,marker);
-			  });
-			 */
 			 google.maps.event.addListener(supplierMarker, 'click', function() {
 				supplierInfowindow.open(mimap,supplierMarker);
 			  }); 
@@ -159,7 +192,7 @@ Ext.regController('StuffsController', {
 			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
 			mimap.setCenter(supplierLocation);
 			
-			//get the toolbar component
+			//get the toolbar component - Allows us update the ToolBar easily...
 			var tb=Ext.getCmp('mapcard');
 			
 			google.maps.event.addListener(mimap, 'zoom_changed', function(){
@@ -170,10 +203,11 @@ Ext.regController('StuffsController', {
 					console.log('All quiet now');
 					tb.dockedItems.items[0].setTitle('Loaded!');
 			});
+			
 			//Just go and open the marker straight away...when map is displayed...
 			supplierInfowindow.open(mimap,supplierMarker);
-			infowindow.open(mimap,marker);		//sure open the other one too...!
-			//The controller will...
+			infowindow.open(mimap,marker);		
+			
 			//Will need to close these, and reset the map when closing the map
  		}
 	},

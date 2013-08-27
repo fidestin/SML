@@ -25,6 +25,12 @@
     layout: 'fit',
     initComponent: function () {
 
+		this.mapListButton = new Ext.Button({
+            text: 'Map',
+           // ui: 'back',						//this is a css-style and shouldnt be changed, it renders a special type of back button.
+            handler: this.mapListTap,
+            scope: this
+        });
 			
 		this.backButton = new Ext.Button({
             text: 'Back',
@@ -35,9 +41,12 @@
 		
 		this.topToolbar = new Ext.Toolbar({
             title: 'Stuffs',
+			//id:'listToolbar',
             items: [ 
 				this.backButton,
-					{ xtype: 'spacer' } ]
+					{ xtype: 'spacer' },
+				this.mapListButton
+					]
         });
 
 		
@@ -71,6 +80,14 @@
         Ext.dispatch({
             controller: ToolbarDemo.controllers.stuffsController,
             action: 'cancelstuffs'
+        });
+    },
+	
+	mapListTap: function () {
+        Ext.dispatch({
+            controller: ToolbarDemo.controllers.stuffsController,
+            action: 'openMapList',
+			listStuff:'this could be a list/complex object of suppliers or map settings also'
         });
     },
 	

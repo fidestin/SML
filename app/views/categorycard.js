@@ -32,7 +32,7 @@ ToolbarDemo.views.Categorycard = Ext.extend(Ext.form.FormPanel, {
     initComponent: function() {
     	  console.log('categoryCard.js-initComponent-');
             this.topToolbar = new Ext.Toolbar({
-	            title: 'Points',
+	            title: 'Places of interest',
 	            items: [
 	                { xtype: 'spacer' }
                        ,
