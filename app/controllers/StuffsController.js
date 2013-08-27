@@ -1,3 +1,10 @@
+//This can only be called as a result of a callback once the store is full.
+//It then calculates the distances and (when all are resuls) - fires its own callback (inside updatePlanner)
+//that refreshes the List with the newly calculated distances
+function CallMapDisplay(){
+	console.log('Calling topFunc - now there are ' + ToolbarDemo.stores.stuffsStore.data.items.length);
+	topFunc();
+}
 //These are the CRUDS for the Stuff controller....
 Ext.regController('StuffsController', {
 
@@ -12,11 +19,16 @@ Ext.regController('StuffsController', {
 		console.log('StuffsController.js_editstuffs');
 		//ToolbarDemo.views.stuffsListView.load(options.category); no method load on this view (Panel)//Could apply a filter??
 		if (ToolbarDemo.views.stuffView){
-			//based on categoryID passed in via options.
-			thirdload(options.category.data.categoryID);		//pass thru the category ID. // this populates the data store - but without the distance calculated...
-			console.log('StuffsController_editStuffs_data store loaded with ' + ToolbarDemo.stores.stuffsStore.data.items.length);
+			mapValuesReturned=0;
 			mapListDisplayed=false;
-			topFunc(); 		//this enables a counter, when complete we refresh the list...
+			//based on categoryID passed in via options.
+			thirdload(options.category.data.categoryID,function(){
+					topFunc();		//Store now loaded, callback -> gets the map distances and saves it to the store
+					}
+			);		//pass thru the category ID. // this populates the data store - but without the distance calculated...
+			console.log('StuffsController_editStuffs_data store loaded with ' + ToolbarDemo.stores.stuffsStore.data.items.length);
+			//topFunc(); 		//this enables a counter, when complete we refresh the list...
+			//need to call this as a result of a callback to thirdload
 			ToolbarDemo.views.stuffView.setActiveItem(
 					ToolbarDemo.views.stuffsListView,
 					{ type: 'slide', direction: 'left' }

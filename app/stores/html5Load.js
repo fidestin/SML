@@ -17,7 +17,7 @@ function dataHandler(transaction,results){
 	}
 }	
 		
-thirdload=function(categoryID){
+thirdload=function(categoryID,callback){
 		try
 		{
 			
@@ -29,7 +29,7 @@ thirdload=function(categoryID){
 									[],
 									function(transaction,results){
 												ToolbarDemo.stores.stuffsStore.clearData();
-												console.log('html5Load.js_Result here ' + results.length);
+												console.log('html5Load.js_Result here ' + results.rows.length);
 												 for (var i=0; i<results.rows.length; i++) {
 													var row = results.rows.item(i);
 														ToolbarDemo.stores.stuffsStore.add({
@@ -41,6 +41,12 @@ thirdload=function(categoryID){
 															stuffName:row.stuffName,			//make this the long text piece.
 															categoryID:row.categoryID
 															});	
+														//When all the items are loaded into the store we fire the mapping bit
+														
+														if (i+1==results.rows.length){
+															console.log('_thirdload_Firing mapping bit-' + i + '-' + results.rows.length);
+															callback(); //ok - dont fire it...
+														}
 												}
 									},
 												errorHandler);

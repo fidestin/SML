@@ -42,14 +42,14 @@ function topFunc(){
 	}
 	console.log('calcs called');
 }
-var mapListDisplayed=false;
-var mapValuesReturned=0;
+var mapListDisplayed;
+var mapValuesReturned;
 
 function updatePlanner(timeHere,distHere,dataIndex){
 	try
 	{
 	mapValuesReturned++;
-		console.log('_updatePLanner_' + mapValuesReturned +'-' +dataIndex + '---This will update the location distance etc : '+timeHere+'-'+distHere);
+		console.log('_updatePLanner_mapValuesReturned: ' + mapValuesReturned +'-mapListDisplayed:' + mapListDisplayed + 'Index:' +dataIndex + '---This will update the location distance etc : '+timeHere+'-'+distHere);
 		ToolbarDemo.stores.stuffsStore.data.items[dataIndex].data.journeyDuration=timeHere;
 		ToolbarDemo.stores.stuffsStore.data.items[dataIndex].data.journeyDistance=distHere;
 		
@@ -61,6 +61,9 @@ function updatePlanner(timeHere,distHere,dataIndex){
 			//callback();
 			console.log('Could we call the controll Dispatcher here? to setActiveItem: ' + dataIndex);
 			//ToolbarDemo.views.stuffsListView.items.items[0].store#
+			//At this point it might be worth checking the store for journeyDuration=0 and re-trying
+			//before freshing the list with zeros...
+			//Could also update spinner to user can see something is happening, the distances are being calculated...
 			ToolbarDemo.views.stuffsListView.items.items[0].refresh();
 		}
 	}
@@ -78,8 +81,10 @@ function getDistance(dataIndex,callback){
 		var directionsService = new google.maps.DirectionsService();
 		
 		var userPos=JSON.parse(localStorage.getItem('userPosition'));
-		
-		var originPosition=new google.maps.LatLng(userPos.mb,userPos.nb);
+		var userPosX=userPos[Object.keys(userPos)[0]];
+		var userPosY=userPos[Object.keys(userPos)[1]];
+		console.log('Parsed user position ' + userPosX + ',' + userPosY);
+		var originPosition=new google.maps.LatLng(userPosX,userPosY);
 		
 		var destDataObject=ToolbarDemo.stores.stuffsStore.data.items[dataIndex].data;
 		
