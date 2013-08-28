@@ -53,7 +53,6 @@ Ext.regController('StuffsController', {
 			//need to call this as a result of a callback to thirdload
 			ToolbarDemo.views.stuffView.setActiveItem(
 					ToolbarDemo.views.stuffsListView,{ type: 'slide', direction: 'left' }
-					
 			);
 			
 		}
@@ -80,10 +79,14 @@ Ext.regController('StuffsController', {
         //ToolbarDemo.views.stuffEditorView.load(options.stuff);		//Form_Panel has load method		
 						//load on Form Panel...seems to 'bind' the single stuff object 											
 						//to the details view. Loading a single object into a FieldSet
-		ToolbarDemo.views.siteView.thisSupplierRecord=options.stuff.data;		//push record detail to view...smaller portion of data
+		var stuffID=options.stuffID		//idenfity the supplier
+		var supplierIndex=getStoreIndex(stuffID);
+		ToolbarDemo.views.siteView.thisSupplierRecord=ToolbarDemo.stores.stuffsStore.getAt(supplierIndex);
+		
+		//ToolbarDemo.views.siteView.thisSupplierRecord=options.stuff.data;		//push record detail to view...smaller portion of data
 		//Change the Toolbar title based on supplier (could this also be done in the Panel Listener event?)
 		var tb=Ext.getCmp('sitecard');
-		tb.dockedItems.items[0].setTitle(options.stuff.data.description);
+		tb.dockedItems.items[0].setTitle(ToolbarDemo.views.siteView.thisSupplierRecord.data.description);
 		
         ToolbarDemo.views.stuffView.setActiveItem(
             ToolbarDemo.views.siteView,			//the object, not the class
@@ -134,64 +137,90 @@ Ext.regController('StuffsController', {
 	
 	'openMapList': function(options){
 		console.log('StuffsController.js_openMapList');
-		mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 		
+		if (ToolbarDemo.views.stuffView){
 		
-		//get the suppliers data collection
-		//var suppliers=new Ext.util.MixedCollection();
-		//suppliers.addAll(ToolbarDemo.stores.stuffsStore.data);				//add all the items in the collection
-		var suppliers=ToolbarDemo.stores.stuffsStore.data.items;
-		var centralDublin=new google.maps.LatLng(53.3497,-6.257);
-		
-		markers.length=0;				//init the marker array
-		markerPositions.length=0;		//ensure the position array is empty to begin with..
-		
-		//Create an array of positions
-		for (var i=0;i<suppliers.length;i++){
-			markerPositions[i]=new google.maps.LatLng(suppliers[i].data.latX,suppliers[i].data.latY);
-		}
-		
-		//Create array of markers from arroy of positions
-		for (var n=0;n<markerPositions.length;n++){
-			var marker= new google.maps.Marker({
-				position:markerPositions[n],
-				map:mimap
-			});
+			//get the toolbar component - Allows us update the ToolBar easily...
+			var vmap=Ext.getCmp('mapcard');
+			var vlist=Ext.getCmp('listStuffs');
 			
-			//Add this marker to collection
-			markers.push(marker);
-		}
-		
-		
-		//Toggle the buttons...
-		if (options.action=="openMap"){
+			//Toggle the buttons...
+			if (options.action=="openMap"){
+					var mapBackButton=Ext.getCmp('mapBackButton');
+					mapBackButton.setVisible(true);
+					var mapListButton=Ext.getCmp('mapListButton');
+					mapListButton.setVisible(true);
+					mapListButton.setText('Detail');
+					mapListButton.handler=mapDetailClose;
+					vmap.dockedItems.items[0].setTitle('StuffMap');		//set the CategoryTitle..
+				}
+			else if (options.action=="openMapList"){
 				var mapBackButton=Ext.getCmp('mapBackButton');
-				mapBackButton.setVisible(true);
+				mapBackButton.setVisible(false);
 				var mapListButton=Ext.getCmp('mapListButton');
-				mapListButton.setVisible(false);
+				mapListButton.setVisible(true);
+				mapListButton.setText('List');
+				mapListButton.handler=mapListClose;
+				vmap.dockedItems.items[0].setTitle(vlist.dockedItems.items[0].title);		//set the CategoryTitle..
 			}
-		else if (options.action=="openMapList"){
-			var mapBackButton=Ext.getCmp('mapBackButton');
-			mapBackButton.setVisible(false);
-			var mapListButton=Ext.getCmp('mapListButton');
-			mapListButton.setVisible(true);
-		}
-		
-		
-		
-		
-		google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
-		mimap.setCenter(centralDublin);
-		mimap.setZoom(13);
-		
-		
-		//Can we just add this once at the start of the app - rather than in several places?
-		google.maps.event.addDomListener(mimap,'center_changed',function(){
-				console.log('Firing resize');
-				google.maps.event.trigger(mimap,"resize");	//ensures it displays correctly after pan
-		});
 			
-		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.mapView,'flip');
+			
+			mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
+			
+			
+			//get the suppliers data collection
+			//var suppliers=new Ext.util.MixedCollection();
+			//suppliers.addAll(ToolbarDemo.stores.stuffsStore.data);				//add all the items in the collection
+			var suppliers=ToolbarDemo.stores.stuffsStore.data.items;
+			var centralDublin=new google.maps.LatLng(53.3497,-6.257);
+			
+			markers.length=0;				//init the marker array
+			markerPositions.length=0;		//ensure the position array is empty to begin with..
+			
+			//Create an array of positions
+			for (var i=0;i<suppliers.length;i++){
+				if (options.action=="openMap"){
+					markerPositions[i]=new google.maps.LatLng(suppliers.items[i].data.latX,suppliers.items[i].data.latY);
+				}
+				if (options.action=="openMapList"){
+					markerPositions[i]=new google.maps.LatLng(suppliers[i].data.latX,suppliers[i].data.latY);
+				}
+			}
+			
+			//Create array of markers from arroy of positions
+			for (var n=0;n<markerPositions.length;n++){
+				var marker= new google.maps.Marker({
+					position:markerPositions[n],
+					map:mimap
+				});
+				
+				//Add this marker to collection
+				markers.push(marker);
+			}
+			
+			
+			//Can we just add this once at the start of the app - rather than in several places?
+			google.maps.event.addDomListener(mimap,'center_changed',function(){
+					console.log('Firing resize');
+					google.maps.event.trigger(mimap,"resize");	//ensures it displays correctly after pan
+			});
+				
+			ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.mapView,'flip');
+			
+			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
+			mimap.setCenter(centralDublin);
+			
+			
+			
+			google.maps.event.addListener(mimap, 'zoom_changed', function(){
+					console.log('Zoome ended');
+					//vmap.dockedItems.items[0].setTitle('Loading...');
+			});
+			google.maps.event.addListener(mimap, 'idle', function(){
+					console.log('All quiet now');
+					//vmap.dockedItems.items[0].setTitle('Loaded!');
+			});
+		}
 	},
 	
 	'openMap': function(options){							//cancels the detail, returns to list...
@@ -199,19 +228,33 @@ Ext.regController('StuffsController', {
 		
     	if (ToolbarDemo.views.stuffView){
 			
+			//get the toolbar component - Allows us update the ToolBar easily...
+			var vmap=Ext.getCmp('mapcard');
+			var vlist=Ext.getCmp('listStuffs');
+			var mapListButton=Ext.getCmp('mapListButton');
 			
 			if (options.action=="openMap"){
 				var mapBackButton=Ext.getCmp('mapBackButton');
-				mapBackButton.setVisible(true);
+				mapBackButton.setVisible(false);
 				var mapListButton=Ext.getCmp('mapListButton');
-				mapListButton.setVisible(false);
+				mapListButton.setVisible(true);
+				mapListButton.setText('Detail');
+				mapListButton.handler=mapDetailClose;
+				vmap.dockedItems.items[0].setTitle('StuffMap');		//set the CategoryTitle..
 			}
 			else if (options.action=="openMapList"){
 				var mapBackButton=Ext.getCmp('mapBackButton');
 				mapBackButton.setVisible(false);
 				var mapListButton=Ext.getCmp('mapListButton');
 				mapListButton.setVisible(true);
+				mapListButton.setText('List');
+				mapListButton.handler=mapListClose;
+				vmap.dockedItems.items[0].setTitle(vlist.dockedItems.items[0].title);		//set the CategoryTitle..
 			}
+			
+			//Set the Close button
+			
+			
 			
 			mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 			
@@ -221,7 +264,7 @@ Ext.regController('StuffsController', {
 			//Create a new mixed collection and a stuff object and add it to the collection...
 			var currentsupplier=options.suppData;	//this array will contain only one supplier (we could add the user position and specify a special icon)
 			
-			var currentSupplierID=options.suppData.stuffID;
+			var currentSupplierID=options.suppData.data.stuffID;
 			var currentSupplierIndex=getStoreIndex(currentSupplierID);
 			
 			//var suppliers=[];	
@@ -233,7 +276,12 @@ Ext.regController('StuffsController', {
 			
 			//Create an array of positions //TODO should match the openMapList
 			for (var i=0;i<suppliers.length;i++){
-				markerPositions[i]=new google.maps.LatLng(suppliers.items[i].data.latX,suppliers.items[i].data.latY);
+				if (options.action=="openMap"){
+					markerPositions[i]=new google.maps.LatLng(suppliers.items[i].data.latX,suppliers.items[i].data.latY);
+				}
+				if (options.action=="openMapList"){
+					markerPositions[i]=new google.maps.LatLng(suppliers[i].data.latX,suppliers[i].data.latY);
+				}
 			}
 			
 			//Create array of markers from arroy of positions
@@ -247,7 +295,7 @@ Ext.regController('StuffsController', {
 				markers.push(marker);
 			}
 		
-			var supplier2=options.suppData;		//another way of getting the supplier
+			var supplier2=options.suppData.data;		//another way of getting the supplier
 			var supplierLocation=new google.maps.LatLng(supplier2.latX,supplier2.latY);
 			
 			console.log('Supplier location is :' + supplierLocation);
@@ -257,11 +305,7 @@ Ext.regController('StuffsController', {
 			});
 			
 			console.log('Opening map -> setActiveItem');
-    		ToolbarDemo.views.stuffView.setActiveItem(
-    	            ToolbarDemo.views.mapView,			//stuffView is a panel, has an ActiveItem
-    	            { type: 'slide', direction: 'left' }
-    	        );
-			
+    		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.mapView,'flip');
 			
 			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
 			mimap.setCenter(supplierLocation);
@@ -271,11 +315,11 @@ Ext.regController('StuffsController', {
 			
 			google.maps.event.addListener(mimap, 'zoom_changed', function(){
 					console.log('Zoome ended');
-					tb.dockedItems.items[0].setTitle('Loading...');
+				//	tb.dockedItems.items[0].setTitle('Loading...');
 			});
 			google.maps.event.addListener(mimap, 'idle', function(){
 					console.log('All quiet now');
-					tb.dockedItems.items[0].setTitle('Loaded!');
+				//	tb.dockedItems.items[0].setTitle('Loaded!');
 			});
 			
 			//Just go and open the marker straight away...when map is displayed...
@@ -290,10 +334,7 @@ Ext.regController('StuffsController', {
 		console.log('StuffsController.js_cancelMap');
 		ClearMap();				//Clear map when returning to the list view...
     	if (ToolbarDemo.views.stuffView){
-    		ToolbarDemo.views.stuffView.setActiveItem(
-    	            ToolbarDemo.views.siteView,			//stuffView is a panel, has an ActiveItem
-    	            { type: 'slide', direction: 'right' }
-    	        );
+    		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.siteView,'flip');
     	}
 	},
     

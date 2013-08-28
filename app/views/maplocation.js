@@ -14,7 +14,24 @@
 
 var Mymap;
 
+mapListClose=function () {
+        Ext.dispatch({
+            controller: ToolbarDemo.controllers.stuffsController,
+            action: 'cancelstuffList',
+			listStuff:'this could be a list_mapListClose',	
+			category: 'catStuffList'
+        });
+    }
 
+mapDetailClose=function () {
+        Ext.dispatch({
+            controller: ToolbarDemo.controllers.stuffsController,
+            action: 'cancelMap',
+			listStuff:'this cancelMapDetail',
+			category: 'catStuffDetail'
+        });
+    }
+	
 bmcaFunction=function(){
 	console.log('This is the map listener');
 }

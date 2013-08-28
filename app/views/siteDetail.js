@@ -11,11 +11,11 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 	},
 	listeners:{
 		activate:function(){
-			console.log('Site detail Activated function'+this.thisSupplierRecord.description);//might be wrong listener
+			console.log('Site detail Activated function'+this.thisSupplierRecord.data.description);//might be wrong listener
 			//set the text and pictures for the supplier...
 			var ttx=Ext.getCmp('sitecard');
 			//ttx.items.items[1].update(this.thisSupplierRecord.stuffName);
-			this.items.items[1].update(this.thisSupplierRecord.stuffName);
+			this.items.items[1].update(this.thisSupplierRecord.data.stuffName);
 		},
 		
 	},
