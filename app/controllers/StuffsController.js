@@ -134,7 +134,7 @@ Ext.regController('StuffsController', {
 		console.log('StuffsController.js_openMapList');
 		mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 		
-		ClearMap();		//remove any markers
+		
 		//get the suppliers data collection
 		var suppliers=ToolbarDemo.stores.stuffsStore.data.items;
 		var centralDublin=new google.maps.LatLng(53.3497,-6.257);
@@ -194,6 +194,32 @@ Ext.regController('StuffsController', {
 			mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 			
 			var supplier=ToolbarDemo.views.siteView.thisSupplierRecord;		//one way of getting the supplier
+			
+			//*******  Use the new Array method  *********
+			//Create a new mixed collection and a stuff object and add it to the collection...
+			var currentsupplier=options.suppData;	//this array will contain only one supplier (we could add the user position and specify a special icon)
+			var suppliers=[];	
+			suppliers.push(currentsupplier);
+			
+			markers.length=0;				//init the marker array
+			markerPositions.length=0;		//ensure the position array is empty to begin with..
+			
+			//Create an array of positions
+			for (var i=0;i<suppliers.length;i++){
+				markerPositions[i]=new google.maps.LatLng(suppliers[i].latX,suppliers[i].latY);
+			}
+			
+			//Create array of markers from arroy of positions
+			for (var n=0;n<markerPositions.length;n++){
+				var marker= new google.maps.Marker({
+					position:markerPositions[n],
+					map:mimap
+				});
+				
+				//Add this marker to collection
+				markers.push(marker);
+			}
+		
 			var supplier2=options.suppData;		//another way of getting the supplier
 			var supplierLocation=new google.maps.LatLng(supplier2.latX,supplier2.latY);
 			
@@ -209,21 +235,21 @@ Ext.regController('StuffsController', {
     	            { type: 'slide', direction: 'left' }
     	        );
 			
-			var supplierMarker=new google.maps.Marker({
-				  position: supplierLocation,
-				  map: mimap,
-				  title: supplier2.description
-			 });
+			//var supplierMarker=new google.maps.Marker({
+			//	  position: supplierLocation,
+			//	  map: mimap,
+			//	  title: supplier2.description
+			//});
 			 
-			 var supplierInfowindow = new google.maps.InfoWindow({
-				  content: supplier2.description,
-				  maxWidth: 300
-			  });
+			 //var supplierInfowindow = new google.maps.InfoWindow({
+			//	  content: supplier2.description,
+			//	  maxWidth: 300
+			 // });
 			  
 			
-			 google.maps.event.addListener(supplierMarker, 'click', function() {
-				supplierInfowindow.open(mimap,supplierMarker);
-			  }); 
+			//google.maps.event.addListener(supplierMarker, 'click', function() {
+			//	supplierInfowindow.open(mimap,supplierMarker);
+			//  }); 
 			
 			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
 			mimap.setCenter(supplierLocation);
@@ -241,8 +267,8 @@ Ext.regController('StuffsController', {
 			});
 			
 			//Just go and open the marker straight away...when map is displayed...
-			supplierInfowindow.open(mimap,supplierMarker);
-			infowindow.open(mimap,marker);		
+			//supplierInfowindow.open(mimap,supplierMarker);
+			//infowindow.open(mimap,marker);		
 			
 			//Will need to close these, and reset the map when closing the map
  		}
@@ -250,6 +276,7 @@ Ext.regController('StuffsController', {
 
 	'cancelMap': function(options){							//cancels the detail, returns to list...
 		console.log('StuffsController.js_cancelMap');
+		ClearMap();				//Clear map when returning to the list view...
     	if (ToolbarDemo.views.stuffView){
     		ToolbarDemo.views.stuffView.setActiveItem(
     	            ToolbarDemo.views.siteView,			//stuffView is a panel, has an ActiveItem
