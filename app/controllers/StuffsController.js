@@ -1,6 +1,21 @@
 //This can only be called as a result of a callback once the store is full.
 //It then calculates the distances and (when all are resuls) - fires its own callback (inside updatePlanner)
 //that refreshes the List with the newly calculated distances
+
+var markerPositions=[];			//Use this array to hold the markers for the map...
+var markers=[];
+
+//Iterate thru the markers collection and set their map property to NULL
+function ClearMap(){
+	if (markers){
+		for (var i=0;i<markers.length;i++){
+			markers[i].setMap(null);
+		}
+		markers.length=0;
+	}
+}
+
+
 function CallMapDisplay(){
 	console.log('Calling topFunc - now there are ' + ToolbarDemo.stores.stuffsStore.data.items.length);
 	topFunc();
@@ -35,8 +50,8 @@ Ext.regController('StuffsController', {
 			//topFunc(); 		//this enables a counter, when complete we refresh the list...
 			//need to call this as a result of a callback to thirdload
 			ToolbarDemo.views.stuffView.setActiveItem(
-					ToolbarDemo.views.stuffsListView,
-					{ type: 'slide', direction: 'left' }
+					ToolbarDemo.views.stuffsListView,{ type: 'slide', direction: 'left' }
+					
 			);
 			
 		}
@@ -85,6 +100,16 @@ Ext.regController('StuffsController', {
     	}
 	},
 	
+	'cancelstuffList': function(options){							//cancels the detail, returns to list...
+			console.log('Do cancel stuff');
+			console.log('StuffsController.js_cancelstuff_And clear the map.');
+			ClearMap();				//Clear map when returning to the list view...
+    	if (ToolbarDemo.views.stuffView){
+    		ToolbarDemo.views.stuffView.setActiveItem(
+    	            ToolbarDemo.views.stuffsListView,'flip');
+    	}
+	},
+	
     //this will redeem the stuff
     'deletestuff': function (options) {
 
@@ -109,16 +134,30 @@ Ext.regController('StuffsController', {
 		console.log('StuffsController.js_openMapList');
 		mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 		
+		ClearMap();		//remove any markers
+		//get the suppliers data collection
 		var suppliers=ToolbarDemo.stores.stuffsStore.data.items;
 		var centralDublin=new google.maps.LatLng(53.3497,-6.257);
 		
+		markers.length=0;				//init the marker array
+		markerPositions.length=0;		//ensure the position array is empty to begin with..
+		
+		//Create an array of positions
 		for (var i=0;i<suppliers.length;i++){
-			var marker=new google.maps.Marker({
-				map:mimap,
-				position: new google.maps.LatLng(suppliers[i].data.latX, suppliers[i].data.latY),
-				title: suppliers[i].data.description
-			});
+			markerPositions[i]=new google.maps.LatLng(suppliers[i].data.latX,suppliers[i].data.latY);
 		}
+		
+		//Create array of markers from arroy of positions
+		for (var n=0;n<markerPositions.length;n++){
+			var marker= new google.maps.Marker({
+				position:markerPositions[n],
+				map:mimap
+			});
+			
+			//Add this marker to collection
+			markers.push(marker);
+		}
+		
 		
 		//Toggle the buttons...
 		var mapBackButton=Ext.getCmp('mapBackButton');
@@ -140,10 +179,7 @@ Ext.regController('StuffsController', {
 				google.maps.event.trigger(mimap,"resize");	//ensures it displays correctly after pan
 		});
 			
-		ToolbarDemo.views.stuffView.setActiveItem(
-    	            ToolbarDemo.views.mapView,			//stuffView is a panel, has an ActiveItem
-    	            { type: 'slide', direction: 'left' }
-    	);
+		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.mapView,'flip');
 	},
 	
 	'openMap': function(options){							//cancels the detail, returns to list...

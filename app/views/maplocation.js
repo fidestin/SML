@@ -26,6 +26,7 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 	title:'Map',
 	iconCls:'map',
 	supplier:Ext.emptyFn,
+	supplierList:Ext.emptyFn,
     id: 'mapcard',
 	fullscreen:true,
 	layout:'fit',
@@ -52,7 +53,7 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 				handler:function(){
 						Ext.dispatch({
 							controller: ToolbarDemo.controllers.stuffsController,
-							action: 'cancelstuff'
+							action: 'cancelstuffList'
 						});
 					}
 		});
@@ -98,7 +99,7 @@ ToolbarDemo.views.Mapcard = Ext.extend(Ext.Panel, {
 			],
 			listeners:{
 				activate:function(){
-					console.log('_MAP.js_-> activate->Just activated vouchercard');
+					console.log('_MAP.js_-> activate->Just activated mapCard');
 				}
 			},
 			onPainted: function(){
