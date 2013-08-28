@@ -85,6 +85,7 @@ ToolbarDemo.stores.stuffsStore=new Ext.data.Store({
 		direction : 'ASC'
 	}],
 	model	: 'ToolbarDemo.models.stuff',
+	storeID : 'myStuffStore'
 	//data	: [	{stuffID:'10',description:'McArdles',stuffName:'Hello',address:'53 Cartur Mor, Clybaun Road, Galway',latX:'53.27941',latY:'-9.10314',categoryID:'214'},
 	//    	   {stuffID:'11',description:'Spanish Arch Bar',stuffName:'World',address:'13 Quay Street, Galway',latX:'53.27105',latY:'-9.054245',categoryID:'214'}
 	//    	   ]

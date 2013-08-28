@@ -5,6 +5,8 @@
 var markerPositions=[];			//Use this array to hold the markers for the map...
 var markers=[];
 
+
+
 //Iterate thru the markers collection and set their map property to NULL
 function ClearMap(){
 	if (markers){
@@ -136,6 +138,8 @@ Ext.regController('StuffsController', {
 		
 		
 		//get the suppliers data collection
+		//var suppliers=new Ext.util.MixedCollection();
+		//suppliers.addAll(ToolbarDemo.stores.stuffsStore.data);				//add all the items in the collection
 		var suppliers=ToolbarDemo.stores.stuffsStore.data.items;
 		var centralDublin=new google.maps.LatLng(53.3497,-6.257);
 		
@@ -160,18 +164,26 @@ Ext.regController('StuffsController', {
 		
 		
 		//Toggle the buttons...
-		var mapBackButton=Ext.getCmp('mapBackButton');
-		mapBackButton.setVisible(false);
-		var mapListButton=Ext.getCmp('mapListButton');
-		mapListButton.setVisible(true);
+		if (options.action=="openMap"){
+				var mapBackButton=Ext.getCmp('mapBackButton');
+				mapBackButton.setVisible(true);
+				var mapListButton=Ext.getCmp('mapListButton');
+				mapListButton.setVisible(false);
+			}
+		else if (options.action=="openMapList"){
+			var mapBackButton=Ext.getCmp('mapBackButton');
+			mapBackButton.setVisible(false);
+			var mapListButton=Ext.getCmp('mapListButton');
+			mapListButton.setVisible(true);
+		}
+		
+		
 		
 		
 		google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
 		mimap.setCenter(centralDublin);
 		mimap.setZoom(13);
 		
-		//Need to add a <list> button to the View here, with a Dispatch back to the list view...
-		//So it doenst get confused with the routing...
 		
 		//Can we just add this once at the start of the app - rather than in several places?
 		google.maps.event.addDomListener(mimap,'center_changed',function(){
@@ -184,13 +196,23 @@ Ext.regController('StuffsController', {
 	
 	'openMap': function(options){							//cancels the detail, returns to list...
 		console.log('StuffsController.js_openMap');
+		
     	if (ToolbarDemo.views.stuffView){
 			
-			var mapBackButton=Ext.getCmp('mapBackButton');
-			mapBackButton.setVisible(true);
-			var mapListButton=Ext.getCmp('mapListButton');
-			mapListButton.setVisible(false);
-		
+			
+			if (options.action=="openMap"){
+				var mapBackButton=Ext.getCmp('mapBackButton');
+				mapBackButton.setVisible(true);
+				var mapListButton=Ext.getCmp('mapListButton');
+				mapListButton.setVisible(false);
+			}
+			else if (options.action=="openMapList"){
+				var mapBackButton=Ext.getCmp('mapBackButton');
+				mapBackButton.setVisible(false);
+				var mapListButton=Ext.getCmp('mapListButton');
+				mapListButton.setVisible(true);
+			}
+			
 			mimap=Ext.getCmp('map1').items.items[0].map;	//grab the map object...
 			
 			var supplier=ToolbarDemo.views.siteView.thisSupplierRecord;		//one way of getting the supplier
@@ -198,15 +220,20 @@ Ext.regController('StuffsController', {
 			//*******  Use the new Array method  *********
 			//Create a new mixed collection and a stuff object and add it to the collection...
 			var currentsupplier=options.suppData;	//this array will contain only one supplier (we could add the user position and specify a special icon)
-			var suppliers=[];	
-			suppliers.push(currentsupplier);
+			
+			var currentSupplierID=options.suppData.stuffID;
+			var currentSupplierIndex=getStoreIndex(currentSupplierID);
+			
+			//var suppliers=[];	
+			var suppliers=new Ext.util.MixedCollection();
+			suppliers.add(ToolbarDemo.stores.stuffsStore.getAt(currentSupplierIndex));
 			
 			markers.length=0;				//init the marker array
 			markerPositions.length=0;		//ensure the position array is empty to begin with..
 			
-			//Create an array of positions
+			//Create an array of positions //TODO should match the openMapList
 			for (var i=0;i<suppliers.length;i++){
-				markerPositions[i]=new google.maps.LatLng(suppliers[i].latX,suppliers[i].latY);
+				markerPositions[i]=new google.maps.LatLng(suppliers.items[i].data.latX,suppliers.items[i].data.latY);
 			}
 			
 			//Create array of markers from arroy of positions
@@ -235,21 +262,6 @@ Ext.regController('StuffsController', {
     	            { type: 'slide', direction: 'left' }
     	        );
 			
-			//var supplierMarker=new google.maps.Marker({
-			//	  position: supplierLocation,
-			//	  map: mimap,
-			//	  title: supplier2.description
-			//});
-			 
-			 //var supplierInfowindow = new google.maps.InfoWindow({
-			//	  content: supplier2.description,
-			//	  maxWidth: 300
-			 // });
-			  
-			
-			//google.maps.event.addListener(supplierMarker, 'click', function() {
-			//	supplierInfowindow.open(mimap,supplierMarker);
-			//  }); 
 			
 			google.maps.event.trigger(mimap,"resize");		//ensures it displays correctly on opening	
 			mimap.setCenter(supplierLocation);
