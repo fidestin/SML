@@ -14,18 +14,10 @@ ToolbarDemo.views.Aboutcard = Ext.extend(Ext.Panel, {
     //styleHtmlContent: true,	//Remove this - 
     initComponent: function() {
     	
-			var backButton=new Ext.Button({
-				text:'Back',
-				ui:'back',
-				handler:this.backButtonTap,
-				scope:this
-			});
 			
-			var showPicsButton=new Ext.Button({
-				text:"Photos",
-				handler:function(){
-					alert('This opens the carousel panel');
-				}
+			var showDetailButton=new Ext.Button({
+				text:"Detail",
+				handler:this.backToDetail
 			});
 		
 			var theText=new Ext.Panel({
@@ -36,41 +28,56 @@ ToolbarDemo.views.Aboutcard = Ext.extend(Ext.Panel, {
 				//layout:'fit'			//make sure it fills the entire space
 			});
 			
-			var bottomChanger=new Ext.Carousel({
+			var photoChanger=new Ext.Carousel({
 				flex:3,
 				items:[
-					{cls:'painting bridge'},
-					{cls:'painting halp'},
+					{
+						xtype:'paintingcard',
+						slug:'bridge',
+						title:'Some big bridge',
+						description:'Just another bridge in Dublin'
+					},
+					{
+						xtype:'paintingcard',
+						slug:'halp',
+						title:'Some bridge',
+						description:'Just another bridge in Dublin'
+					},
+					{
+						xtype:'paintingcard',
+						slug:'church',
+						title:'Some Church',
+						description:'Just another church in Dublin'
+					}
 				]
 			});
 			
 			
 			
     		this.topToolbar = new Ext.Toolbar({
-	            title: 'About',
+	            title: 'Photos',
 	            items: [
-					backButton,
-	                { xtype: 'spacer'},
-					showPicsButton
+					{ xtype: 'spacer'},
+					showDetailButton
 	             ]
 	        });
 	        
 	        this.dockedItems = [this.topToolbar];
 
     		this.items=[
-					bottomChanger,
+					photoChanger,
 				
-					theText
+					//theText
 					
 				];
     		
 	        ToolbarDemo.views.Aboutcard.superclass.initComponent.apply(this, arguments);       
     	},		//initcomponent
 		
-		backButtonTap: function () {
+		backToDetail: function () {
         Ext.dispatch({
             controller: ToolbarDemo.controllers.stuffsController,
-            action: 'cancelstuff'
+            action: 'closePhotos'
         });
     }
 });

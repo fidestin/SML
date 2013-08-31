@@ -28,6 +28,11 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 				height:200
 			});
 			
+			var showPhotoButton=new Ext.Button({
+				text:'Photos',
+				handler:this.photoButtonTap,
+				scope:this
+			});
 			
 			var backButton=new Ext.Button({
 				text:'Back',
@@ -36,7 +41,7 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 				scope:this
 			});
 			
-			var showPicsButton=new Ext.Button({
+			var showMapButton=new Ext.Button({
 				text:"Map",
 				handler:function(){
 					//alert('This opens the carousel panel');
@@ -50,12 +55,7 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 				}
 			});
 			
-			var showMapButton=new Ext.Button({
-				text:"Map",
-				handler:function(){
-					alert('This opens the map');
-				}
-			});
+			
 		
 			var theText=new Ext.Panel({
 				flex:4,
@@ -72,7 +72,8 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 	            items: [
 					backButton,
 	                { xtype: 'spacer'},
-					showPicsButton
+					showPhotoButton,
+					showMapButton
 	             ]
 	        });
 	        
@@ -91,6 +92,13 @@ ToolbarDemo.views.Sitecard = Ext.extend(Ext.Panel, {
 				controller: ToolbarDemo.controllers.stuffsController,
 				action: 'cancelstuff'
 			});
+		},
+		
+		photoButtonTap:function(){
+			Ext.dispatch({
+					controller: ToolbarDemo.controllers.stuffsController,
+					action: 'showPhotos'
+				});
 		}
 });
 

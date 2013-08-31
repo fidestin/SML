@@ -3,7 +3,7 @@ ToolbarDemo = new Ext.Application({
 
     launch: function() {
     	console.log('app.js_launch');
-		localStorage.clear();
+		//localStorage.clear();
 		getLocation();	//asynch call to get user position...
     	//Must create this here - before creating the viewport - or viewport.initComponent will fail as mainView doesnt exist yet...
     	//Required for the card panels.
