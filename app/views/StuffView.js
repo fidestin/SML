@@ -48,6 +48,13 @@ ToolbarDemo.views.StuffView = Ext.extend(Ext.Panel, {
 			
         });
 		
+		if (ToolbarDemo.views.siteView){
+			console.log('stuffView.js_ : siteView exists');
+		}
+		else
+		{
+			console.log('stuffView.js_ : siteView dont exist');
+		}
 		
 		//NB Order critical here...
 		this.items = [

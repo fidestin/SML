@@ -73,14 +73,28 @@ ToolbarDemo.views.MainView = Ext.extend(Ext.Panel, {
         
     	Ext.apply(ToolbarDemo.views, {
         	notesListView: new ToolbarDemo.views.NotesListView({ vouchersStore: ToolbarDemo.stores.vouchersStore }),
-            noteEditorView: new ToolbarDemo.views.NoteEditorView()
+            noteEditorView: new ToolbarDemo.views.NoteEditorView(),
+			//main_siteView: new ToolbarDemo.views.Sitecard()
+			//main_mapView:new ToolbarDemo.views.Mapcard()
+			//main_aboutView:new ToolbarDemo.views.Aboutcard(),
+			
         });
 		
 		//console.log('mainview_initComponent_apply()_added NoteListView+editorview';
-				
+		if (ToolbarDemo.views.siteView){
+			console.log('MainView.js_ : siteView exists');
+		}
+		else
+		{
+			console.log('MainView.js_ : siteView dont exist');
+		}
+		
         this.items = [
             ToolbarDemo.views.notesListView,
-            ToolbarDemo.views.noteEditorView
+            ToolbarDemo.views.noteEditorView,
+			//ToolbarDemo.views.main_siteView				//add these in, they are already created in stuffView, can we use them here?
+			//ToolbarDemo.views.main_mapView
+			//ToolbarDemo.views.main_aboutView
         ]
 
         ToolbarDemo.views.MainView.superclass.initComponent.call(this);

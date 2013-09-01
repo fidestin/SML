@@ -7,15 +7,18 @@ ToolbarDemo = new Ext.Application({
 		getLocation();	//asynch call to get user position...
     	//Must create this here - before creating the viewport - or viewport.initComponent will fail as mainView doesnt exist yet...
     	//Required for the card panels.
+		if (!ToolbarDemo.views.stuffView) {
+			console.log('app.js_stuffview');
+			ToolbarDemo.views.stuffView = new ToolbarDemo.views.StuffView();		
+        }
+		
+		
 		if (!ToolbarDemo.views.mainView) {
 			console.log('app.js_mainview');
 			ToolbarDemo.views.mainView = new ToolbarDemo.views.MainView();		
         }
 		
-		if (!ToolbarDemo.views.stuffView) {
-			console.log('app.js_stuffview');
-			ToolbarDemo.views.stuffView = new ToolbarDemo.views.StuffView();		
-        }
+		
 		
 		if (!ToolbarDemo.views.Homecard) {
 			console.log('app.js_homecard');

@@ -337,6 +337,21 @@ Ext.regController('StuffsController', {
     		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.siteView,'flip');
     	}
 	},
+	
+	'showPhotos': function(options){							//cancels the detail, returns to list...
+		console.log('StuffsController.js_showPhotos');
+		if (ToolbarDemo.views.stuffView){
+    		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.aboutView,'flip');
+    	}
+	},
+	
+	'closePhotos': function(options){							//cancels the detail, returns to list...
+		console.log('StuffsController.js_closePhotos');
+		if (ToolbarDemo.views.stuffView){
+    		ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.siteView,'flip');
+    	}
+	},
+	
     
 });
 

@@ -17,7 +17,7 @@ function getStoreIndex(value){
 	for (var i=0;i<ToolbarDemo.stores.stuffsStore.data.length;i++){
 		if (ToolbarDemo.stores.stuffsStore.data.items[i].data.stuffID==value)
 		{
-			console.log('storeName.data.items[i].data.description');
+			//console.log(storeName.data.items[i].data.description);
 			break;
 		}
 	}
@@ -32,10 +32,10 @@ function getStoreIndex(value){
 //
 
 function topFunc(){
-	console.log('topFunc - starting calcs - Item count ' + ToolbarDemo.stores.stuffsStore.data.items.length);
+	//console.log('topFunc - starting calcs - Item count ' + ToolbarDemo.stores.stuffsStore.data.items.length);
 	
 	for (var i=0;i<ToolbarDemo.stores.stuffsStore.data.items.length;i++){
-		console.log('Calling Planner for ' +i);
+		//console.log('Calling Planner for ' +i);
 		getDistance(i,updatePlanner);
 		//Now you can open the list screen...
 		//or refresh it...
@@ -49,7 +49,7 @@ function updatePlanner(timeHere,distHere,dataIndex){
 	try
 	{
 	mapValuesReturned++;
-		console.log('_updatePLanner_mapValuesReturned: ' + mapValuesReturned +'-mapListDisplayed:' + mapListDisplayed + 'Index:' +dataIndex + '---This will update the location distance etc : '+timeHere+'-'+distHere);
+		//console.log('_updatePLanner_mapValuesReturned: ' + mapValuesReturned +'-mapListDisplayed:' + mapListDisplayed + 'Index:' +dataIndex + '---This will update the location distance etc : '+timeHere+'-'+distHere);
 		ToolbarDemo.stores.stuffsStore.data.items[dataIndex].data.journeyDuration=timeHere;
 		ToolbarDemo.stores.stuffsStore.data.items[dataIndex].data.journeyDistance=distHere;
 		
@@ -105,9 +105,9 @@ function getDistance(dataIndex,callback){
 				//directionsDisplay.setDirections(response);
 				var journeyTime=response.routes[0].legs[0].duration.text;
 				var journeyDistance=response.routes[0].legs[0].distance.text;
-				console.log('=>Distance okay.');
-				console.log('=>Distance is ' + response.routes[0].legs[0].distance.text);
-				console.log('=>Duration is ' + response.routes[0].legs[0].duration.text);
+				//console.log('=>Distance okay.');
+				//console.log('=>Distance is ' + response.routes[0].legs[0].distance.text);
+				//console.log('=>Duration is ' + response.routes[0].legs[0].duration.text);
 				callback(journeyTime,journeyDistance,dataIndex);
 				//Call some (new) function here that updates the in browser sqlite database with this distance
 				//Course if the user moves, the need to hit refresh to get new distances

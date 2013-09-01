@@ -17,6 +17,7 @@ function dataHandler(transaction,results){
 	}
 }	
 		
+//Pulls out the listings for a specific category - Hotels/Pubs etc		
 thirdload=function(categoryID,callback){
 		try
 		{
