@@ -31,12 +31,18 @@ ToolbarDemo.views.Categorycard = Ext.extend(Ext.form.FormPanel, {
     layout:'fit',
     initComponent: function() {
     	  console.log('categoryCard.js-initComponent-');
+		  this.searchButton=new Ext.Button({
+				text:'Search',
+				handler:this.searchHandler,
+				scope:this
+			});
+			
             this.topToolbar = new Ext.Toolbar({
 	            title: 'Places of interest',
 	            items: [
 	                { xtype: 'spacer' }
                        ,
-                       upLoadPoints
+                       this.searchButton
 	            ]
 	        });
 	        			
@@ -46,6 +52,26 @@ ToolbarDemo.views.Categorycard = Ext.extend(Ext.form.FormPanel, {
 			
 			ToolbarDemo.views.Categorycard.superclass.initComponent.apply(this, arguments);
     	},
+		
+		
+		searchHandler:function(){
+			Ext.Msg.prompt('Enter search word', '',  function(btn, text){
+						 if(btn == 'ok'){
+							 //do stuff...
+							 console.log('Text is ' + text);
+							 //Open site view with this card
+							 Ext.dispatch({
+									controller: ToolbarDemo.controllers.stuffsController,
+									action: 'editsearchstuffs',
+									searchText: text      //anything added at this line (or after) just gets dropped into [options] object
+														//the controller has access to it then, as options.stuff, options.stuff etc etc
+								});
+							// ToolbarDemo.views.stuffView.setActiveItem(ToolbarDemo.views.siteView,'slide')
+						 }
+					},
+					this, false, 'foo', {maxlength: 100});
+				},
+		
 		onEditStuffs: function (record, index) {
 						console.log('categorycard.js_onEditStuffs....Loading the stuffs screen...');
 						Ext.dispatch({

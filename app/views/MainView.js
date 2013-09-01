@@ -1,5 +1,7 @@
 //FIX_115 *** START - Moved this function here so it can be called more easily...
 ToolbarDemo.views.LoadVouchersIntoDisplay=function(){
+	ToolbarDemo.stores.vouchersStore.clearData();
+	ToolbarDemo.stores.localStore.clearData();
     debugalert('ToolbarDemo.views.LoadVouchersIntoDisplay__Loading Vouchers into display.');
     var mainc=Ext.getCmp('listVouchers');
     var l=mainc.setLoading(true,true);

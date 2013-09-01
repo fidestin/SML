@@ -241,10 +241,43 @@ ToolbarDemo.views.LoadPointsStore=function(customercode){
                     
 }
 
+var vListBindObj;
 
+LoadFromCache=function(){
+	try{
+		console.log('Loading from Cache');
+		vListBindObj=Ext.getCmp("vList");
+		vListBindObj.bindStore(ToolbarDemo.stores.localStore);		//bind to offline stores...
+		console.log('Online cache not empty-> ' + ToolbarDemo.stores.vouchersStore.data.items.length);
+		ToolbarDemo.stores.vouchersStore.clearData();
+		console.log('Online cache empty-> ' + ToolbarDemo.stores.vouchersStore.data.items.length);
+		
+		//**** Persist the records to the local browser store... ****
+		//ToolbarDemo.stores.localStore.sync();			//<----- the magic : saves it to the localStorage in the browser,,
+		
+		ToolbarDemo.stores.localStore.clearData();		//Now empty and RELOAD the offlineStore from localStorage in the browser
+		ToolbarDemo.stores.localStore.load();			//This RELOADS it from the local proxy - localStorage in the browser
+		ToolbarDemo.stores.vouchersStore.data=ToolbarDemo.stores.localStore.data;	//Pull offline records into the 'online' store
+		
+		console.log('Reloaded from cache. Online cache not empty-> ' + ToolbarDemo.stores.vouchersStore.data.items.length);
+		
+	}
+	catch(b){
+		console.log('Error in LoadFromCache() ' +b);
+	}
+}
+
+//Data Add event on the voucher store ensures that they are loaded into localStorage
 ToolbarDemo.views.LoadCustomerVouchers=function(customercode){
 	try{
-        if(!Fidestin.Utils.checkConnection()){return false}; //check for connection and exit if it fails.
+		vListBindObj=Ext.getCmp("vList");
+		vListBindObj.bindStore(ToolbarDemo.stores.vouchersStore);
+		
+        if(!Fidestin.Utils.checkConnection()){
+			LoadFromCache();
+			return false
+		}; //check for connection and exit if it fails.
+		
         var nowd=new Date();
         var randDate=dateFormat(nowd,"yyyy-mm-dd-HH:MM:ss LL");
 		if (localStorage.hasConnection=='0') return -99;
@@ -268,6 +301,7 @@ ToolbarDemo.views.LoadCustomerVouchers=function(customercode){
 	                	 			ToolbarDemo.stores.vouchersStore.add({storeID:result[i].storeID,storename:result[i].storename,voucherID:result[i].id,description:result[i].description,expires:result[i].expires,customername:result[i].customername,datecreated:result[i].datecreated});
 	                	 			localStorage.voucherscount=result.length;
 	                	 			
+									ToolbarDemo.stores.localStore.sync();	//Persist to the localStorage in the browser...
 	                	 		}
 	                	 		console.log('Voucher Count :'+localStorage.voucherscount);
 	                	 		var mainc=Ext.getCmp('listVouchers');

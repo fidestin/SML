@@ -16,7 +16,52 @@ function dataHandler(transaction,results){
     	var row = results.rows.item(i);
 	}
 }	
+	
 		
+//Pulls out the listings for a searchWord
+searchload=function(searchword,callback){
+		try
+		{
+			
+			console.log('html5Load.js_searchload()');
+		   var SQL_STRING=" select _id as ID,locationName as description, locationCategoryId as categoryID,locationSummary as stuffName, locationAddress as address, locationLatitude as latX, locationLongitude as latY from location where locationName like '" + searchword + "%'";
+		   console.log(SQL_STRING);
+			var myDB = openDatabase(shortName, version, displayName, maxSize);
+			myDB.transaction(function(transaction){
+						transaction.executeSql(SQL_STRING,
+									[],
+									function(transaction,results){
+												ToolbarDemo.stores.stuffsStore.clearData();
+												//console.log('html5Load.js_searchload here ' + results.rows.length);
+												 for (var i=0; i<results.rows.length; i++) {
+													var row = results.rows.item(i);
+														ToolbarDemo.stores.stuffsStore.add({
+															stuffID:row.ID,
+															address:row.address,
+															description:row.description,		//Title (short)
+															latX:row.latX,
+															latY:row.latY,
+															stuffName:row.stuffName,			//make this the long text piece.
+															categoryID:row.categoryID
+															});	
+														//When all the items are loaded into the store we fire the mapping bit
+														
+														if (i+1==results.rows.length){
+															console.log(results.rows.length + ' results found for ->' + searchword + '<-');
+															console.log('_searchload_Firing mapping bit-' + i + '-' + results.rows.length);
+															callback(); //ok - dont fire it...
+														}
+												}
+									},
+												errorHandler);
+									}
+							);	
+		}
+		catch(b){
+			console.log('Error in ' + b);
+		}
+}	
+	
 //Pulls out the listings for a specific category - Hotels/Pubs etc		
 thirdload=function(categoryID,callback){
 		try

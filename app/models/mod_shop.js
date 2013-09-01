@@ -105,20 +105,53 @@ ToolbarDemo.models.voucher=Ext.regModel('ToolbarDemo.models.voucher',{
 		        ]
 });
 
+//Offline model identical
+ToolbarDemo.models.offlinevoucher=Ext.regModel('ToolbarDemo.models.offlinevoucher',{
+	//idProperty: 'voucherID',
+	fields:[
+			{name:'voucherID',	type:'string'},
+			{name:'storeID',	type:'string'},
+			{name:'storename',	type:'string'},
+			{name:'description',type:'string'},
+			{name:'customername',type:'string'},
+			{name:'datecreated',type:'string'},
+			{name:'expires',	type:'string'}
+			
+			],
+	proxy:{
+		type:'localstorage',
+		id:'voucherID'
+	}
+});
+
+
+
+ToolbarDemo.stores.localStore=new Ext.data.Store({
+	sorters	:[{
+		property : 'storename',
+		direction : 'ASC'
+	}],
+	model	: 'ToolbarDemo.models.offlinevoucher'
+});
+
+
 ToolbarDemo.stores.vouchersStore=new Ext.data.Store({
 	sorters	:[{
 		property : 'storename',
 		direction : 'ASC'
 	}],
-	model	: 'ToolbarDemo.models.voucher',
-	//data	: [			//This is now loaded in the NotesListView_initComponent() 
-	//    	   {voucherID:'10',storeID:'2',storename:'McNamaras €10 Voucher'},
-	//    	   {voucherID:'11',storeID:'2',storename:'OBriens Christmas €5 Voucher'}
-	//    	   ],
-   //getGroupString: function (record) {
-   //    return record.get('storename');
-   //}
+	model	: 'ToolbarDemo.models.voucher'
+});
 
+//Work with the online stores...
+var onlineVouchers=Ext.getStore(ToolbarDemo.stores.vouchersStore);
+
+
+//Other events? - Is there always only one record in this?
+onlineVouchers.on('add',function(store,records){
+	console.log('onlineVouchers add Event : ' + store.model.modelName + ' - Data - ' + records[0].data.description);
+	ToolbarDemo.stores.localStore.add(records);
+	console.log('Records in store.model.modelName : ' + ToolbarDemo.stores.localStore.data.items.length);
 });
 
 //BMCA - Added suppliers - these are the activity suppliers - customer may or

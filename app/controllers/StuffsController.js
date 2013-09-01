@@ -58,6 +58,32 @@ Ext.regController('StuffsController', {
 		}
 	},
 	
+	'editsearchstuffs': function (options) {						//loads the stuffslist - should filter this
+		console.log('StuffsController.js_editsearchstuffs');
+		//ToolbarDemo.views.stuffsListView.load(options.category); no method load on this view (Panel)//Could apply a filter??
+		if (ToolbarDemo.views.stuffView){
+			mapValuesReturned=0;
+			mapListDisplayed=false;
+			
+			var tb=Ext.getCmp('listStuffs');		
+			tb.dockedItems.items[0].setTitle('Search Results');
+			
+			searchload(options.searchText,function(){
+					topFunc();		//Store now loaded, callback -> gets the map distances and saves it to the store
+					}
+			);		//pass thru the category ID. // this populates the data store - but without the distance calculated...
+			console.log('StuffsController_editsearchstuffs_data store loaded with ' + ToolbarDemo.stores.stuffsStore.data.items.length);
+			if (ToolbarDemo.stores.stuffsStore.data.items.length==0){
+				console.log('No records returned...alert user');
+			}
+			//topFunc(); 		//this enables a counter, when complete we refresh the list...
+			//need to call this as a result of a callback to thirdload
+			ToolbarDemo.views.stuffView.setActiveItem(
+					ToolbarDemo.views.stuffsListView,{ type: 'slide', direction: 'left' }
+			);
+			
+		}
+	},
 	
 	'cancelstuffs':function(options){							//reload the category view....
 		console.log('StuffsController.js_cancelstuffs=>exit the stuffsList and return to category');

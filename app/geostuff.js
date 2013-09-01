@@ -83,7 +83,7 @@ function getDistance(dataIndex,callback){
 		var userPos=JSON.parse(localStorage.getItem('userPosition'));
 		var userPosX=userPos[Object.keys(userPos)[0]];
 		var userPosY=userPos[Object.keys(userPos)[1]];
-		console.log('Parsed user position ' + userPosX + ',' + userPosY);
+		//console.log('Parsed user position ' + userPosX + ',' + userPosY);
 		var originPosition=new google.maps.LatLng(userPosX,userPosY);
 		
 		var destDataObject=ToolbarDemo.stores.stuffsStore.data.items[dataIndex].data;
@@ -91,7 +91,7 @@ function getDistance(dataIndex,callback){
 		
 		//var destinationPosition=new google.maps.LatLng(53.287,-6.36647);
 		var destinationPosition=new google.maps.LatLng(destDataObject.latX,destDataObject.latY);
-		console.log(destinationPosition);
+		//console.log(destinationPosition);
 		
 		var request={
 			origin:originPosition,
